@@ -1098,37 +1098,37 @@ function printWindow(html, title, layout) {
 function makeSlipContent(d, delivType, dateTimeStr, dateLabel, dlv, itemsSub, tax, total, fmt) {
   const showDest = delivType==='配達'||delivType==='宅配';
 
-  // お渡し方法バッジ（大きく目立つ）
+  // お渡し方法バッジ
   const delivIcon = delivType==='来店'?'🏪':delivType==='配達'?'🚗':'📦';
   const delivBg   = delivType==='来店'?'#e8f5e8':delivType==='配達'?'#fff3e0':'#e8f0ff';
   const delivBdr  = delivType==='来店'?'#5a8a5a':delivType==='配達'?'#e08040':'#5060cc';
   const delivClr  = delivType==='来店'?'#1a4a1a':delivType==='配達'?'#7a3000':'#202080';
 
-  const delivBadge = `<div style="display:inline-flex;align-items:center;gap:5px;background:${delivBg};border:2.5px solid ${delivBdr};border-radius:8px;padding:4px 12px 4px 8px;margin-bottom:6px;">
-    <span style="font-size:18px;">${delivIcon}</span>
-    <span style="font-size:16px;font-weight:900;color:${delivClr};letter-spacing:0.05em;">${delivType}</span>
+  const delivBadge = `<div style="display:inline-flex;align-items:center;gap:6px;background:${delivBg};border:2.5px solid ${delivBdr};border-radius:8px;padding:5px 14px 5px 10px;margin-bottom:7px;">
+    <span style="font-size:20px;">${delivIcon}</span>
+    <span style="font-size:18px;font-weight:900;color:${delivClr};letter-spacing:0.05em;">${delivType}</span>
   </div>`;
 
   // お届け日（大きく1行）
-  const dateBig = dateTimeStr ? `<div style="background:#f0f7f0;border:2px solid #6a9a6a;border-radius:6px;padding:6px 10px;margin-bottom:8px;">
-    <div style="font-size:8.5px;font-weight:700;color:#2a4a2a;margin-bottom:1px;">${dateLabel}</div>
-    <div style="font-family:'Shippori Mincho',serif;font-size:17px;font-weight:700;color:#111;white-space:nowrap;">${dateTimeStr}</div>
+  const dateBig = dateTimeStr ? `<div style="background:#f0f7f0;border:2px solid #6a9a6a;border-radius:6px;padding:7px 10px;margin-bottom:9px;">
+    <div style="font-size:14px;font-weight:700;color:#2a4a2a;margin-bottom:2px;">${dateLabel}</div>
+    <div style="font-family:'Shippori Mincho',serif;font-size:18px;font-weight:700;color:#111;white-space:nowrap;">${dateTimeStr}</div>
   </div>` : '';
 
   // ご注文主
-  const orderMaster = `<div style="border:2px solid #3a5a3a;border-radius:7px;padding:7px 10px;margin-bottom:8px;">
-    <div style="font-size:9px;font-weight:700;color:#2a4a2a;border-bottom:1.5px solid #aacaaa;padding-bottom:3px;margin-bottom:5px;">👤 ご注文主</div>
-    <div style="font-size:16px;font-weight:900;color:#111;margin-bottom:4px;line-height:1.2;">${withSama(d.orderName)}</div>
-    <div style="font-size:9px;color:#333;font-weight:600;">TEL：<span style="font-size:11px;font-weight:700;color:#111;">${d.orderTel||'—'}</span></div>
-    ${d.orderAddr?`<div style="font-size:9px;color:#333;font-weight:600;margin-top:2px;">住所：<span style="font-size:9.5px;font-weight:600;color:#111;">${d.orderAddr}</span></div>`:''}
+  const orderMaster = `<div style="border:2px solid #3a5a3a;border-radius:7px;padding:8px 10px;margin-bottom:9px;">
+    <div style="font-size:14px;font-weight:700;color:#2a4a2a;border-bottom:1.5px solid #aacaaa;padding-bottom:3px;margin-bottom:6px;">👤 ご注文主</div>
+    <div style="font-size:18px;font-weight:900;color:#111;margin-bottom:5px;line-height:1.2;">${withSama(d.orderName)}</div>
+    <div style="font-size:14px;color:#333;font-weight:600;">TEL：<span style="font-weight:700;color:#111;">${d.orderTel||'—'}</span></div>
+    ${d.orderAddr?`<div style="font-size:14px;color:#333;font-weight:600;margin-top:3px;">住所：<span style="font-weight:600;color:#111;">${d.orderAddr}</span></div>`:''}
   </div>`;
 
   // お届け先
-  const destBox = showDest ? `<div style="border:2px solid #5060bb;border-radius:7px;padding:7px 10px;margin-bottom:8px;">
-    <div style="font-size:9px;font-weight:700;color:#303090;border-bottom:1.5px solid #9090dd;padding-bottom:3px;margin-bottom:5px;">📍 お届け先</div>
-    <div style="font-size:16px;font-weight:900;color:#111;margin-bottom:4px;line-height:1.2;">${withSama(d.destName)}</div>
-    <div style="font-size:9px;color:#333;font-weight:600;">TEL：<span style="font-size:11px;font-weight:700;color:#111;">${d.destTel||'—'}</span></div>
-    ${d.destAddr?`<div style="font-size:9px;color:#333;font-weight:600;margin-top:2px;">住所：<span style="font-size:9.5px;font-weight:600;color:#111;">${d.destAddr}</span></div>`:''}
+  const destBox = showDest ? `<div style="border:2px solid #5060bb;border-radius:7px;padding:8px 10px;margin-bottom:9px;">
+    <div style="font-size:14px;font-weight:700;color:#303090;border-bottom:1.5px solid #9090dd;padding-bottom:3px;margin-bottom:6px;">📍 お届け先</div>
+    <div style="font-size:18px;font-weight:900;color:#111;margin-bottom:5px;line-height:1.2;">${withSama(d.destName)}</div>
+    <div style="font-size:14px;color:#333;font-weight:600;">TEL：<span style="font-weight:700;color:#111;">${d.destTel||'—'}</span></div>
+    ${d.destAddr?`<div style="font-size:14px;color:#333;font-weight:600;margin-top:3px;">住所：<span style="font-weight:600;color:#111;">${d.destAddr}</span></div>`:''}
   </div>` : '';
 
   // 左カラム
@@ -1136,73 +1136,73 @@ function makeSlipContent(d, delivType, dateTimeStr, dateLabel, dlv, itemsSub, ta
 
   // 品目テーブル
   const itemsTable = items.length ? `
-    <table style="width:100%;border-collapse:collapse;margin-bottom:4px;">
+    <table style="width:100%;border-collapse:collapse;margin-bottom:5px;">
       <thead><tr style="border-bottom:1.5px solid #555;">
-        <th style="text-align:left;padding:2px 2px;font-size:8.5px;color:#333;font-weight:700;">品名</th>
-        <th style="text-align:center;padding:2px;font-size:8.5px;color:#333;font-weight:700;width:24px;">数</th>
-        <th style="text-align:right;padding:2px;font-size:8.5px;color:#333;font-weight:700;width:54px;">単価</th>
-        <th style="text-align:right;padding:2px;font-size:8.5px;color:#333;font-weight:700;width:58px;">小計</th>
+        <th style="text-align:left;padding:3px 2px;font-size:14px;color:#333;font-weight:700;">品名</th>
+        <th style="text-align:center;padding:3px 2px;font-size:14px;color:#333;font-weight:700;width:28px;">数</th>
+        <th style="text-align:right;padding:3px 2px;font-size:14px;color:#333;font-weight:700;width:58px;">単価</th>
+        <th style="text-align:right;padding:3px 2px;font-size:14px;color:#333;font-weight:700;width:64px;">小計</th>
       </tr></thead>
       <tbody>${items.map(it=>`<tr style="border-bottom:1px solid #ddd;">
-        <td style="padding:3px 2px;">
-          <div style="font-size:13px;font-weight:800;color:#111;">${it.name||''}</div>
-          ${it.detail?`<div style="font-size:8.5px;color:#555;">${it.detail}</div>`:''}
+        <td style="padding:4px 2px;">
+          <div style="font-size:15px;font-weight:800;color:#111;">${it.name||''}</div>
+          ${it.detail?`<div style="font-size:14px;color:#555;">${it.detail}</div>`:''}
         </td>
-        <td style="padding:3px 2px;text-align:center;font-size:11px;color:#111;font-weight:700;">${it.qty||1}</td>
-        <td style="padding:3px 2px;text-align:right;font-size:10px;color:#333;">${it.price?fmt(it.price):'-'}</td>
-        <td style="padding:3px 2px;text-align:right;font-size:11px;font-weight:700;color:#111;">${it.price?fmt(it.price*(it.qty||1)):'-'}</td>
+        <td style="padding:4px 2px;text-align:center;font-size:14px;color:#111;font-weight:700;">${it.qty||1}</td>
+        <td style="padding:4px 2px;text-align:right;font-size:14px;color:#333;">${it.price?fmt(it.price):'-'}</td>
+        <td style="padding:4px 2px;text-align:right;font-size:14px;font-weight:700;color:#111;">${it.price?fmt(it.price*(it.qty||1)):'-'}</td>
       </tr>`).join('')}</tbody>
     </table>` : '';
 
-  // 右カラム：用途→品目→金額→花材→メッセージ
+  // 右カラム
   const rightCol = `
-    <div style="margin-bottom:7px;">
-      <div style="font-size:9px;font-weight:700;color:#2a4a2a;border-bottom:2px solid #2a4a2a;padding-bottom:2px;margin-bottom:4px;">💐 ご注文品</div>
-      ${d.purpose?`<div style="font-size:10px;font-weight:700;color:#444;margin-bottom:4px;">用途：<strong style="color:#111;font-size:11px;">${d.purpose}</strong></div>`:''}
+    <div style="margin-bottom:8px;">
+      <div style="font-size:14px;font-weight:700;color:#2a4a2a;border-bottom:2px solid #2a4a2a;padding-bottom:2px;margin-bottom:5px;">💐 ご注文品</div>
+      ${d.purpose?`<div style="font-size:14px;font-weight:700;color:#444;margin-bottom:5px;">用途：<strong style="color:#111;">${d.purpose}</strong></div>`:''}
       ${itemsTable}
-      <div style="background:#eaf3ea;border:1.5px solid #7aba7a;border-radius:5px;padding:5px 8px;margin-top:4px;">
-        <div style="display:flex;justify-content:space-between;font-size:9px;margin-bottom:1px;"><span style="color:#444;">商品小計</span><span style="font-weight:700;color:#111;">${fmt(itemsSub)}</span></div>
-        ${dlv?`<div style="display:flex;justify-content:space-between;font-size:9px;margin-bottom:1px;"><span style="color:#444;">配達料</span><span style="font-weight:700;color:#111;">${fmt(dlv)}</span></div>`:''}
-        <div style="display:flex;justify-content:space-between;font-size:9px;margin-bottom:3px;"><span style="color:#444;">消費税${d.taxMode==='incl'?' (内税)':''}</span><span style="font-weight:700;color:#111;">${fmt(tax)}</span></div>
+      <div style="background:#eaf3ea;border:1.5px solid #7aba7a;border-radius:5px;padding:6px 9px;margin-top:5px;">
+        <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:2px;"><span style="color:#444;">商品小計</span><span style="font-weight:700;color:#111;">${fmt(itemsSub)}</span></div>
+        ${dlv?`<div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:2px;"><span style="color:#444;">配達料</span><span style="font-weight:700;color:#111;">${fmt(dlv)}</span></div>`:''}
+        <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:4px;"><span style="color:#444;">消費税${d.taxMode==='incl'?' (内税)':''}</span><span style="font-weight:700;color:#111;">${fmt(tax)}</span></div>
         <div style="display:flex;justify-content:space-between;align-items:center;border-top:1.5px solid #7aba7a;padding-top:4px;">
-          <span style="font-size:10px;font-weight:700;color:#2a4a2a;">合計（税込）</span>
-          <span style="font-family:'Shippori Mincho',serif;font-size:20px;font-weight:700;color:#2a4a2a;">${fmt(total)}</span>
+          <span style="font-size:14px;font-weight:700;color:#2a4a2a;">合計（税込）</span>
+          <span style="font-family:'Shippori Mincho',serif;font-size:22px;font-weight:700;color:#2a4a2a;">${fmt(total)}</span>
         </div>
       </div>
-      ${d.payStatus?`<div style="font-size:9px;color:#444;margin-top:3px;">お支払い：<strong style="color:#111;">${d.payStatus}</strong></div>`:''}
+      ${d.payStatus?`<div style="font-size:14px;color:#444;margin-top:4px;">お支払い：<strong style="color:#111;">${d.payStatus}</strong></div>`:''}
     </div>
-    ${d.colorImage||d.flowerMaterial?`<div style="margin-bottom:7px;">
-      <div style="font-size:9px;font-weight:700;color:#2a4a2a;border-bottom:2px solid #2a4a2a;padding-bottom:2px;margin-bottom:4px;">🎨 イメージ・花材</div>
-      ${d.colorImage?`<div style="font-size:9.5px;color:#333;margin-bottom:2px;">カラー：<strong style="color:#111;">${d.colorImage}</strong></div>`:''}
-      ${d.flowerMaterial?`<div style="font-size:9.5px;color:#111;line-height:1.5;">${d.flowerMaterial.replace(/\n/g,'<br>')}</div>`:''}
+    ${d.colorImage||d.flowerMaterial?`<div style="margin-bottom:8px;">
+      <div style="font-size:14px;font-weight:700;color:#2a4a2a;border-bottom:2px solid #2a4a2a;padding-bottom:2px;margin-bottom:5px;">🎨 イメージ・花材</div>
+      ${d.colorImage?`<div style="font-size:14px;color:#333;margin-bottom:3px;">カラー：<strong style="color:#111;">${d.colorImage}</strong></div>`:''}
+      ${d.flowerMaterial?`<div style="font-size:14px;color:#111;line-height:1.6;">${d.flowerMaterial.replace(/\n/g,'<br>')}</div>`:''}
     </div>`:''}
-    ${d.cardType==='あり'?`<div style="margin-bottom:7px;">
-      <div style="font-size:9px;font-weight:700;color:#2a4a2a;border-bottom:2px solid #2a4a2a;padding-bottom:2px;margin-bottom:4px;">✉️ メッセージカード</div>
-      <div style="font-size:10px;color:#111;line-height:1.6;">${(d.msgText||'').replace(/\n/g,'<br>')}</div>
+    ${d.cardType==='あり'?`<div style="margin-bottom:8px;">
+      <div style="font-size:14px;font-weight:700;color:#2a4a2a;border-bottom:2px solid #2a4a2a;padding-bottom:2px;margin-bottom:5px;">✉️ メッセージカード</div>
+      <div style="font-size:14px;color:#111;line-height:1.7;">${(d.msgText||'').replace(/\n/g,'<br>')}</div>
     </div>`:''}`;
 
-  // 備考（メッセージ下部）
+  // 備考
   const notesArea = d.notes ? `
-    <div style="background:#fafaf8;border:1px solid #ccc;border-radius:4px;padding:5px 8px;margin-top:5px;flex-shrink:0;">
-      <div style="font-size:8.5px;font-weight:700;color:#444;margin-bottom:2px;">📝 備考</div>
-      <div style="font-size:9.5px;color:#222;line-height:1.5;white-space:pre-wrap;">${d.notes}</div>
+    <div style="background:#fafaf8;border:1px solid #ccc;border-radius:4px;padding:6px 9px;margin-top:5px;flex-shrink:0;">
+      <div style="font-size:14px;font-weight:700;color:#444;margin-bottom:2px;">📝 備考</div>
+      <div style="font-size:14px;color:#222;line-height:1.6;white-space:pre-wrap;">${d.notes}</div>
     </div>` : '';
 
-  // 商品タグ（メッセージ・備考の下）
+  // 商品タグ
   const itemNames = items.map(it=>[it.name,it.detail].filter(Boolean).join(' ')).join('、') || '—';
   const tagArea = `
-    <div style="border:2px dashed #888;border-radius:5px;padding:6px 10px;margin-top:6px;position:relative;flex-shrink:0;">
-      <div style="font-size:7.5px;color:#888;position:absolute;top:-7px;left:50%;transform:translateX(-50%);background:white;padding:0 5px;">✂ 切り取り（商品タグ）</div>
+    <div style="border:2px dashed #888;border-radius:5px;padding:7px 11px;margin-top:7px;position:relative;flex-shrink:0;">
+      <div style="font-size:9px;color:#888;position:absolute;top:-7px;left:50%;transform:translateX(-50%);background:white;padding:0 5px;">✂ 切り取り（商品タグ）</div>
       <div style="display:flex;align-items:center;gap:10px;">
         <div style="flex-shrink:0;">
-          <div style="font-size:7px;color:#444;">注文番号</div>
-          <div style="font-family:'Shippori Mincho',serif;font-size:22px;font-weight:700;color:#2a4a2a;line-height:1;">No.${d.orderNo}</div>
+          <div style="font-size:10px;color:#444;">注文番号</div>
+          <div style="font-family:'Shippori Mincho',serif;font-size:24px;font-weight:700;color:#2a4a2a;line-height:1;">No.${d.orderNo}</div>
         </div>
         <div style="border-left:1.5px solid #ccc;padding-left:10px;flex:1;">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
-            <div><div style="font-size:7px;color:#444;margin-bottom:1px;">${dateLabel}</div><div style="font-size:11px;font-weight:700;color:#111;">${dateTimeStr||'—'}</div></div>
-            <div><div style="font-size:7px;color:#444;margin-bottom:1px;">お客様名</div><div style="font-size:13px;font-weight:700;color:#111;">${withSama(d.orderName)}</div></div>
-            <div style="grid-column:1/3;"><div style="font-size:7px;color:#444;margin-bottom:1px;">品名</div><div style="font-size:11px;font-weight:700;color:#2a4a2a;">${itemNames}</div></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+            <div><div style="font-size:10px;color:#444;margin-bottom:1px;">${dateLabel}</div><div style="font-size:14px;font-weight:700;color:#111;">${dateTimeStr||'—'}</div></div>
+            <div><div style="font-size:10px;color:#444;margin-bottom:1px;">お客様名</div><div style="font-size:15px;font-weight:700;color:#111;">${withSama(d.orderName)}</div></div>
+            <div style="grid-column:1/3;"><div style="font-size:10px;color:#444;margin-bottom:1px;">品名</div><div style="font-size:14px;font-weight:700;color:#2a4a2a;">${itemNames}</div></div>
           </div>
         </div>
       </div>
