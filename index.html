@@ -1043,29 +1043,29 @@ function printWindow(html, title, layout) {
       *{margin:0;padding:0;box-sizing:border-box;}
       body{background:#f0f0ec;font-family:'Noto Sans JP',sans-serif;padding:10px;}
       ${isA4x2 ? `
-      /* A4縦・2面並べ（上下） */
+      /* A4横・左右2面並べ */
       .sheet{
         background:white;
-        width:210mm;height:297mm;
-        display:flex;flex-direction:column;
+        width:297mm;height:210mm;
+        display:flex;flex-direction:row;
         margin:0 auto 12px;
         box-shadow:0 2px 8px rgba(0,0,0,0.15);
         page-break-after:always;
       }
       .sheet:last-child{page-break-after:auto;}
       .page{
-        width:210mm;height:148.5mm;
-        padding:5mm 8mm;
+        width:148.5mm;height:210mm;
+        padding:6mm 8mm;
         overflow:hidden;
         display:flex;flex-direction:column;
         flex-shrink:0;
       }
-      .page:first-child{border-bottom:1px dashed #bbb;}
+      .page:first-child{border-right:1px dashed #bbb;}
       @media print{
         body{background:white;padding:0;zoom:90%;}
-        @page{margin:0;size:A4 portrait;}
-        .sheet{width:210mm;height:297mm;margin:0;box-shadow:none;}
-        .page{width:210mm;height:148.5mm;padding:5mm 8mm;}
+        @page{margin:0;size:A4 landscape;}
+        .sheet{width:297mm;height:210mm;margin:0;box-shadow:none;}
+        .page{width:148.5mm;height:210mm;padding:6mm 8mm;}
       }
       ` : `
       /* A5縦 */
@@ -1263,7 +1263,7 @@ function openPrintPreview() {
   </div>`;
 
   document.getElementById('print-slip').innerHTML = `
-    <div style="font-size:11px;color:#666;text-align:center;padding:6px 0 3px;">プレビュー（A4縦・2面）</div>
+    <div style="font-size:11px;color:#666;text-align:center;padding:6px 0 3px;">プレビュー（A4横・左右2面）</div>
     <div class="sheet">${page1}${page2}</div>`;
   document.getElementById('print-modal').classList.add('active');
 }
@@ -1332,7 +1332,7 @@ function doDeliveryPrint() {
   const dateTimeStr = [d.deliveryDate, time].filter(v=>v&&v!=='日付を選択してください').join(' ');
   const now = new Date().toLocaleString('ja-JP');
 
-  const html = `<div class="page" style="justify-content:space-between;width:210mm;height:297mm;padding:10mm 12mm;">
+  const html = `<div class="page" style="justify-content:space-between;">
     <!-- ヘッダー（小さいままでOK） -->
     <div style="display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:7px;border-bottom:3px solid #2a4a2a;margin-bottom:10px;flex-shrink:0;">
       <div>
