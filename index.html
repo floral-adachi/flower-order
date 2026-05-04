@@ -1333,7 +1333,7 @@ function doDeliveryPrint() {
   const now = new Date().toLocaleString('ja-JP');
 
   const html = `<div class="page" style="justify-content:space-between;">
-    <!-- ヘッダー -->
+    <!-- ヘッダー（小さいままでOK） -->
     <div style="display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:7px;border-bottom:3px solid #2a4a2a;margin-bottom:10px;flex-shrink:0;">
       <div>
         <div style="font-family:'Shippori Mincho',serif;font-size:17px;color:#2a4a2a;font-weight:700;">🌸 配　達　票</div>
@@ -1341,74 +1341,74 @@ function doDeliveryPrint() {
         <div style="font-size:8.5px;color:#222;margin-top:1px;">${SHOP.zip}　${SHOP.addr}　TEL ${SHOP.tel}</div>
       </div>
       <div style="text-align:right;">
-        <div style="font-size:8px;color:#444;">注文番号</div>
+        <div style="font-size:9px;color:#444;">注文番号</div>
         <div style="font-family:'Shippori Mincho',serif;font-size:38px;color:#2a4a2a;font-weight:700;line-height:1;">No.${d.orderNo}</div>
       </div>
     </div>
 
     <!-- お届け希望日時 -->
     <div style="background:#ddeedd;border:2px solid #5a8a5a;border-radius:7px;padding:8px 13px;margin-bottom:12px;flex-shrink:0;">
-      <div style="font-size:9.5px;font-weight:700;color:#2a4a2a;margin-bottom:3px;">📅 お届け希望日時</div>
-      <div style="font-family:'Shippori Mincho',serif;font-size:23px;font-weight:700;color:#111;white-space:nowrap;">${dateTimeStr||'　　　　　　　　　'}</div>
+      <div style="font-size:14px;font-weight:700;color:#2a4a2a;margin-bottom:3px;">📅 お届け希望日時</div>
+      <div style="font-family:'Shippori Mincho',serif;font-size:24px;font-weight:700;color:#111;white-space:nowrap;">${dateTimeStr||'　　　　　　　　　'}</div>
     </div>
 
     <!-- お届け先・ご依頼主 -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;flex-shrink:0;">
-      <div style="border:2.5px solid #2a4a2a;border-radius:7px;padding:8px 11px;">
-        <div style="font-size:10px;font-weight:700;color:#2a4a2a;border-bottom:1.5px solid #5a8a5a;padding-bottom:3px;margin-bottom:6px;">📍 お届け先</div>
-        <div style="font-size:8.5px;color:#333;font-weight:600;margin-bottom:1px;">ご住所</div>
-        <div style="font-size:10.5px;font-weight:600;color:#111;margin-bottom:6px;line-height:1.5;">${d.destAddr||'—'}</div>
-        <div style="font-size:8.5px;color:#333;font-weight:600;margin-bottom:1px;">お名前</div>
-        <div style="font-size:17px;font-weight:700;color:#111;margin-bottom:5px;line-height:1.2;">${withSama(d.destName)}</div>
-        <div style="font-size:8.5px;color:#333;font-weight:600;margin-bottom:1px;">電話番号</div>
-        <div style="font-size:12px;font-weight:700;color:#111;">${d.destTel||'—'}</div>
+      <div style="border:2.5px solid #2a4a2a;border-radius:7px;padding:9px 12px;">
+        <div style="font-size:14px;font-weight:700;color:#2a4a2a;border-bottom:1.5px solid #5a8a5a;padding-bottom:4px;margin-bottom:7px;">📍 お届け先</div>
+        <div style="font-size:14px;color:#333;font-weight:600;margin-bottom:1px;">ご住所</div>
+        <div style="font-size:14px;font-weight:600;color:#111;margin-bottom:7px;line-height:1.6;">${d.destAddr||'—'}</div>
+        <div style="font-size:14px;color:#333;font-weight:600;margin-bottom:1px;">お名前</div>
+        <div style="font-size:20px;font-weight:700;color:#111;margin-bottom:6px;line-height:1.2;">${withSama(d.destName)}</div>
+        <div style="font-size:14px;color:#333;font-weight:600;margin-bottom:1px;">電話番号</div>
+        <div style="font-size:16px;font-weight:700;color:#111;">${d.destTel||'—'}</div>
       </div>
-      <div style="border:2px solid #666;border-radius:7px;padding:8px 11px;">
-        <div style="font-size:10px;font-weight:700;color:#2a4a2a;border-bottom:1.5px solid #aaa;padding-bottom:3px;margin-bottom:6px;">👤 ご依頼主</div>
-        <div style="font-size:8.5px;color:#333;font-weight:600;margin-bottom:1px;">ご住所</div>
-        <div style="font-size:10.5px;font-weight:600;color:#111;margin-bottom:6px;line-height:1.5;">${d.orderAddr||'—'}</div>
-        <div style="font-size:8.5px;color:#333;font-weight:600;margin-bottom:1px;">お名前</div>
-        <div style="font-size:17px;font-weight:700;color:#111;margin-bottom:5px;line-height:1.2;">${withSama(d.orderName)}</div>
-        <div style="font-size:8.5px;color:#333;font-weight:600;margin-bottom:1px;">電話番号</div>
-        <div style="font-size:12px;font-weight:700;color:#111;">${d.orderTel||'—'}</div>
+      <div style="border:2px solid #666;border-radius:7px;padding:9px 12px;">
+        <div style="font-size:14px;font-weight:700;color:#2a4a2a;border-bottom:1.5px solid #aaa;padding-bottom:4px;margin-bottom:7px;">👤 ご依頼主</div>
+        <div style="font-size:14px;color:#333;font-weight:600;margin-bottom:1px;">ご住所</div>
+        <div style="font-size:14px;font-weight:600;color:#111;margin-bottom:7px;line-height:1.6;">${d.orderAddr||'—'}</div>
+        <div style="font-size:14px;color:#333;font-weight:600;margin-bottom:1px;">お名前</div>
+        <div style="font-size:20px;font-weight:700;color:#111;margin-bottom:6px;line-height:1.2;">${withSama(d.orderName)}</div>
+        <div style="font-size:14px;color:#333;font-weight:600;margin-bottom:1px;">電話番号</div>
+        <div style="font-size:16px;font-weight:700;color:#111;">${d.orderTel||'—'}</div>
       </div>
     </div>
 
     <!-- フッター文言 -->
     <div style="background:#eef6ee;border:1.5px solid #8aba8a;border-radius:6px;padding:8px 12px;margin-bottom:10px;flex-shrink:0;">
-      <div style="font-size:10px;color:#111;line-height:2;font-weight:500;">
+      <div style="font-size:14px;color:#111;line-height:2;font-weight:500;">
         ご依頼主様へ、お受け取りの旨をご一報いただければ幸いでございます。<br>
         お花のご用命はお気軽にお申し付けください。
       </div>
       <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:flex-end;">
         <div>
-          <div style="font-family:'Shippori Mincho',serif;font-size:12px;font-weight:700;color:#2a4a2a;">${SHOP.name}</div>
-          <div style="font-size:9px;color:#222;font-weight:600;">${SHOP.zip}　${SHOP.addr}</div>
-          <div style="font-size:11px;color:#2a4a2a;font-weight:700;">TEL ${SHOP.tel}</div>
+          <div style="font-family:'Shippori Mincho',serif;font-size:14px;font-weight:700;color:#2a4a2a;">${SHOP.name}</div>
+          <div style="font-size:14px;color:#222;font-weight:600;">${SHOP.zip}　${SHOP.addr}</div>
+          <div style="font-size:14px;color:#2a4a2a;font-weight:700;">TEL ${SHOP.tel}</div>
         </div>
-        <div style="font-size:7.5px;color:#777;">発行：${now}</div>
+        <div style="font-size:9px;color:#777;">発行：${now}</div>
       </div>
     </div>
 
     <!-- 受領書（切り取り・最下部） -->
-    <div style="border:2px dashed #777;border-radius:5px;padding:8px 12px;position:relative;flex-shrink:0;">
-      <div style="font-size:8px;color:#777;position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:white;padding:0 6px;">✂ 切り取り（受領書）</div>
+    <div style="border:2px dashed #777;border-radius:5px;padding:9px 12px;position:relative;flex-shrink:0;">
+      <div style="font-size:9px;color:#777;position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:white;padding:0 6px;">✂ 切り取り（受領書）</div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-        <div style="font-family:'Shippori Mincho',serif;font-size:14px;color:#2a4a2a;font-weight:700;">受　領　書</div>
-        <div style="font-family:'Shippori Mincho',serif;font-size:16px;color:#2a4a2a;font-weight:700;">No.${d.orderNo}</div>
+        <div style="font-family:'Shippori Mincho',serif;font-size:16px;color:#2a4a2a;font-weight:700;">受　領　書</div>
+        <div style="font-family:'Shippori Mincho',serif;font-size:18px;color:#2a4a2a;font-weight:700;">No.${d.orderNo}</div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 72px;gap:8px;align-items:end;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 80px;gap:8px;align-items:end;">
         <div>
-          <div style="font-size:8.5px;color:#333;font-weight:700;margin-bottom:2px;">お届け先</div>
-          <div style="font-size:14px;font-weight:700;color:#111;">${withSama(d.destName)}</div>
+          <div style="font-size:14px;color:#333;font-weight:700;margin-bottom:3px;">お届け先</div>
+          <div style="font-size:16px;font-weight:700;color:#111;">${withSama(d.destName)}</div>
         </div>
         <div>
-          <div style="font-size:8.5px;color:#333;font-weight:700;margin-bottom:2px;">受　領　日</div>
-          <div style="border-bottom:2px solid #333;min-height:24px;padding-bottom:2px;font-size:13px;font-weight:600;color:#111;letter-spacing:0.05em;">　　年　　月　　日</div>
+          <div style="font-size:14px;color:#333;font-weight:700;margin-bottom:3px;">受　領　日</div>
+          <div style="border-bottom:2px solid #333;min-height:26px;padding-bottom:2px;font-size:16px;font-weight:600;color:#111;letter-spacing:0.1em;">　　年　　月　　日</div>
         </div>
         <div>
-          <div style="font-size:8.5px;color:#333;font-weight:700;margin-bottom:2px;text-align:center;">受　領　印</div>
-          <div style="border:2px solid #333;height:48px;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:9px;">印</div>
+          <div style="font-size:14px;color:#333;font-weight:700;margin-bottom:3px;text-align:center;">受　領　印</div>
+          <div style="border:2px solid #333;height:52px;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:9px;">印</div>
         </div>
       </div>
     </div>
