@@ -1062,7 +1062,7 @@ function printWindow(html, title, layout) {
       }
       .page:first-child{border-right:1px dashed #bbb;}
       @media print{
-        body{background:white;padding:0;}
+        body{background:white;padding:0;zoom:90%;}
         @page{margin:0;size:A4 landscape;}
         .sheet{width:297mm;height:210mm;margin:0;box-shadow:none;}
         .page{width:148.5mm;height:210mm;padding:6mm 7mm;}
@@ -1079,7 +1079,7 @@ function printWindow(html, title, layout) {
       }
       .page:last-child{page-break-after:auto;}
       @media print{
-        body{background:white;padding:0;}
+        body{background:white;padding:0;zoom:90%;}
         @page{margin:0;size:A5 portrait;}
         .page{width:148mm;height:210mm;padding:6.5mm 8mm;margin:0;box-shadow:none;}
       }
