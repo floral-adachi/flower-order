@@ -1033,62 +1033,35 @@ function withSama(name) {
   return name + '　様';
 }
 
-function printWindow(html, title, layout) {
-  // layout: 'a5' = A5縦1枚ずつ, 'a4x2' = A4横に2面並べ（デフォルト）
-  const isA4x2 = layout !== 'a5';
-  const win = window.open('','_blank','width=900,height=700');
+function printWindow(html, title) {
+  const win = window.open('','_blank','width=700,height=900');
   win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${title}</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Shippori+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
       *{margin:0;padding:0;box-sizing:border-box;}
       body{background:#f0f0ec;font-family:'Noto Sans JP',sans-serif;padding:10px;}
-      ${isA4x2 ? `
-      /* A4横・左右2面並べ */
-      .sheet{
+      .page{
         background:white;
-        width:297mm;height:210mm;
-        display:flex;flex-direction:row;
+        width:148mm;
+        height:210mm;
         margin:0 auto 12px;
-        box-shadow:0 2px 8px rgba(0,0,0,0.15);
+        padding:7mm 8mm;
         page-break-after:always;
-      }
-      .sheet:last-child{page-break-after:auto;}
-      .page{
-        width:148.5mm;height:210mm;
-        padding:6mm 8mm;
         overflow:hidden;
-        display:flex;flex-direction:column;
-        flex-shrink:0;
-      }
-      .page:first-child{border-right:1px dashed #bbb;}
-      @media print{
-        body{background:white;padding:0;zoom:90%;}
-        @page{margin:0;size:A4 landscape;}
-        .sheet{width:297mm;height:210mm;margin:0;box-shadow:none;}
-        .page{width:148.5mm;height:210mm;padding:6mm 8mm;}
-      }
-      ` : `
-      /* A5縦 */
-      .sheet{display:contents;}
-      .page{
-        background:white;width:148mm;height:210mm;
-        margin:0 auto 12px;padding:6.5mm 8mm;
-        page-break-after:always;overflow:hidden;
-        display:flex;flex-direction:column;
+        display:flex;
+        flex-direction:column;
         box-shadow:0 2px 8px rgba(0,0,0,0.12);
       }
       .page:last-child{page-break-after:auto;}
       @media print{
         body{background:white;padding:0;zoom:90%;}
         @page{margin:0;size:A5 portrait;}
-        .page{width:148mm;height:210mm;padding:6.5mm 8mm;margin:0;box-shadow:none;}
+        .page{
+          width:148mm;height:210mm;
+          padding:7mm 8mm;
+          margin:0;box-shadow:none;
+        }
       }
-      `}
-      .sec-title{font-size:9.5px;font-weight:700;color:#2a4a2a;border-bottom:2px solid #2a4a2a;padding-bottom:2px;margin-bottom:4px;}
-      .sec{margin-bottom:7px;}
-      .row{display:flex;gap:0;margin-bottom:2px;}
-      .row-lbl{font-size:9px;color:#333;font-weight:600;width:52px;flex-shrink:0;padding-top:1px;}
-      .row-val{font-size:11px;color:#111;font-weight:500;flex:1;line-height:1.4;}
     </style>
   </head><body>${html}</body></html>`);
   win.document.close(); win.focus(); setTimeout(()=>win.print(),800);
@@ -1263,7 +1236,7 @@ function openPrintPreview() {
   </div>`;
 
   document.getElementById('print-slip').innerHTML = `
-    <div style="font-size:11px;color:#666;text-align:center;padding:6px 0 3px;">プレビュー（A5縦・2枚） ※印刷はA5縦向きで</div>
+    <div style="font-size:11px;color:#666;text-align:center;padding:6px 0 6px;">📄 プレビュー（A5縦・2枚）</div>
     ${page1}${page2}`;
   document.getElementById('print-modal').classList.add('active');
 }
@@ -1319,7 +1292,7 @@ function doPrint() {
       <div style="margin-top:4px;font-size:9px;color:#444;text-align:center;">お花のご用命はお気軽にお申し付けください</div>
     </div>
   </div>`;
-  printWindow(`${p1}${p2}`, `注文伝票 No.${no}`, 'a5');
+  printWindow(`${p1}${p2}`, `注文伝票 No.${no}`);
 }
 
 // ===== 配達票印刷（A5） =====
@@ -1415,7 +1388,7 @@ function doDeliveryPrint() {
   </div>`;
 
   const no = gd('order-no-disp');
-  printWindow(`${html}`, `配達票 No.${no}`, 'a5');
+  printWindow(`${html}`, `配達票 No.${no}`);
 }
 
 // ===== TOAST =====
