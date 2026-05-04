@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>花屋 注文伝票</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600&family=Shippori+Mincho:wght@400;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Shippori+Mincho:wght@400;600;700&display=swap');
 
   :root {
     --cream: #fafaf8;
@@ -21,9 +21,9 @@
     --text: #2c2c2a;
     --text-light: #6b7280;
     --border: #d4d8cf;
-    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-    --radius: 8px;
-    --radius-sm: 5px;
+    --shadow: 0 1px 4px rgba(0,0,0,0.08);
+    --radius: 10px;
+    --radius-sm: 7px;
   }
 
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -34,308 +34,272 @@
     color:var(--text);
     height:100dvh;
     overflow:hidden;
-    font-size:12px;
+    font-size:14px;
   }
 
   /* ===== HEADER ===== */
   .app-header {
     background:var(--white);
     border-bottom:1px solid var(--border);
-    padding:5px 12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    box-shadow:var(--shadow);
-    position:relative;
-    z-index:10;
-    height:42px;
+    padding:6px 14px;
+    display:flex; align-items:center; justify-content:space-between;
+    box-shadow:var(--shadow); z-index:10; height:46px;
   }
   .shop-title {
-    font-family:'Shippori Mincho',serif;
-    font-size:16px;
-    color:var(--green);
-    letter-spacing:0.08em;
-    display:flex;
-    align-items:center;
-    gap:7px;
+    font-family:'Shippori Mincho',serif; font-size:18px; color:var(--green);
+    letter-spacing:0.08em; display:flex; align-items:center; gap:7px;
   }
   .order-badge {
-    background:var(--green-pale);
-    color:var(--green);
-    font-size:10px;
-    font-weight:600;
-    padding:2px 9px;
-    border-radius:20px;
+    background:var(--green-pale); color:var(--green); font-size:12px;
+    font-weight:700; padding:3px 11px; border-radius:20px;
   }
-  .header-actions { display:flex; gap:5px; }
+  .header-actions { display:flex; gap:6px; }
   .btn {
     border:none; cursor:pointer; font-family:'Noto Sans JP',sans-serif;
-    font-size:11px; font-weight:500; border-radius:var(--radius-sm);
-    padding:5px 11px; transition:all 0.15s ease; display:flex; align-items:center; gap:3px;
+    font-size:12px; font-weight:600; border-radius:var(--radius-sm);
+    padding:6px 13px; transition:all 0.15s; display:flex; align-items:center; gap:4px;
   }
   .btn-new { background:var(--gray-ultra); color:var(--gray); border:1px solid var(--border); }
-  .btn-new:active { background:var(--gray-light); }
   .btn-print { background:var(--green); color:white; }
-  .btn-print:active { background:#4a6a4a; }
   .btn-save { background:var(--rose); color:white; }
-  .btn-save:active { background:#b06858; }
   .btn-drive { background:#4285f4; color:white; }
-  .btn-drive:active { background:#3275e4; }
 
   /* ===== MAIN GRID 3×3 ===== */
   .main {
-    height:calc(100dvh - 42px);
+    height:calc(100dvh - 46px);
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr auto;
-    gap:6px;
-    padding:6px;
-    overflow:hidden;
+    gap:7px; padding:7px; overflow:hidden;
   }
 
   /* ===== CARD ===== */
   .card {
-    background:var(--white);
-    border-radius:var(--radius);
-    border:1px solid var(--border);
-    box-shadow:var(--shadow);
-    padding:7px 9px;
-    overflow:hidden;
-    display:flex;
-    flex-direction:column;
+    background:var(--white); border-radius:var(--radius);
+    border:1px solid var(--border); box-shadow:var(--shadow);
+    padding:9px 11px; overflow:hidden;
+    display:flex; flex-direction:column; gap:5px;
   }
   .card-title {
-    font-size:10px;
-    font-weight:700;
-    color:var(--green);
-    letter-spacing:0.07em;
-    margin-bottom:5px;
-    display:flex;
-    align-items:center;
-    gap:4px;
-    border-bottom:1px solid var(--green-pale);
-    padding-bottom:4px;
-    flex-shrink:0;
+    font-size:11px; font-weight:700; color:var(--green);
+    letter-spacing:0.07em; display:flex; align-items:center; gap:4px;
+    border-bottom:2px solid var(--green-pale); padding-bottom:5px; flex-shrink:0;
   }
 
-  /* ===== FORM ELEMENTS ===== */
-  label {
-    font-size:10px;
-    color:var(--text-light);
-    font-weight:500;
-    display:block;
-    margin-bottom:2px;
+  .field-label {
+    font-size:11px; color:var(--text-light); font-weight:600;
+    margin-bottom:2px; letter-spacing:0.02em;
   }
-  input[type=text], input[type=tel], select, textarea {
-    width:100%;
-    background:var(--gray-ultra);
-    border:1px solid var(--border);
-    border-radius:var(--radius-sm);
-    padding:4px 7px;
-    font-family:'Noto Sans JP',sans-serif;
-    font-size:11px;
-    color:var(--text);
-    outline:none;
-    transition:border-color 0.15s, background 0.15s;
-    appearance:none;
-    -webkit-appearance:none;
-  }
-  input[type=number] {
-    width:100%;
-    background:var(--gray-ultra);
-    border:1px solid var(--border);
-    border-radius:var(--radius-sm);
-    padding:4px 7px;
-    font-family:'Noto Sans JP',sans-serif;
-    font-size:11px;
-    color:var(--text);
-    outline:none;
-    transition:border-color 0.15s;
-    appearance:none;
-    -webkit-appearance:none;
-    -moz-appearance:textfield;
-  }
-  input[type=number]::-webkit-inner-spin-button,
-  input[type=number]::-webkit-outer-spin-button { -webkit-appearance:none; }
-  input:focus, select:focus, textarea:focus {
-    border-color:var(--green-light);
-    background:var(--white);
-    box-shadow:0 0 0 2px rgba(90,122,90,0.1);
-  }
-  select {
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236b7280'/%3E%3C/svg%3E");
-    background-repeat:no-repeat;
-    background-position:right 6px center;
-    padding-right:20px;
-    cursor:pointer;
-  }
-  textarea { resize:none; }
+  .field { display:flex; flex-direction:column; }
 
-  .field { margin-bottom:4px; }
-  .field:last-child { margin-bottom:0; }
-  .f2 { display:grid; grid-template-columns:1fr 1fr; gap:4px; }
+  /* ===== VAL DISPLAY (tap to expand) ===== */
+  .val-display {
+    background:var(--gray-ultra); border:1.5px solid var(--border);
+    border-radius:var(--radius-sm); padding:6px 10px;
+    font-size:15px; font-weight:500; color:var(--text);
+    cursor:pointer; min-height:36px; display:flex; align-items:center;
+    transition:all 0.15s; position:relative;
+  }
+  .val-display::after { content:'✎'; position:absolute; right:8px; font-size:12px; color:var(--text-light); opacity:0.5; }
+  .val-display:active { border-color:var(--green-light); background:var(--white); }
+  .val-display.empty { color:var(--text-light); font-size:13px; font-weight:400; }
+  .val-display.big-name { font-size:18px; font-weight:700; min-height:42px; }
+
+  /* ===== 来店日 BIG ===== */
+  .delivery-date-big {
+    background:var(--green-pale); border:2px solid var(--green-light);
+    border-radius:var(--radius-sm); padding:8px 12px;
+    display:flex; align-items:center; gap:8px; cursor:pointer;
+    transition:all 0.15s; min-height:46px;
+  }
+  .delivery-date-big:active { background:var(--green-ultra); border-color:var(--green); }
+  .delivery-date-big .cal-icon { font-size:20px; flex-shrink:0; }
+  .delivery-date-big-label { font-size:11px; font-weight:700; color:var(--green); line-height:1; margin-bottom:2px; }
+  .delivery-date-big-val { font-size:18px; font-weight:700; color:var(--green); font-family:'Shippori Mincho',serif; }
+  .delivery-date-big-val.empty { font-size:14px; color:var(--text-light); font-family:'Noto Sans JP',sans-serif; font-weight:400; }
+
+  /* ===== 受付日 small ===== */
+  .accept-date-row {
+    display:flex; align-items:center; gap:6px;
+    background:var(--gray-ultra); border:1px solid var(--border);
+    border-radius:var(--radius-sm); padding:4px 8px; cursor:pointer;
+  }
+  .accept-date-row:active { border-color:var(--green-light); }
+  .accept-date-small { font-size:12px; color:var(--text-light); flex:1; }
+  .accept-date-val { font-size:12px; font-weight:600; color:var(--text); }
 
   /* ===== TOGGLE ===== */
-  .toggle-group { display:flex; gap:3px; }
+  .toggle-group { display:flex; gap:4px; }
   .toggle-group input[type=radio] { display:none; }
   .toggle-group label {
-    background:var(--gray-ultra);
-    border:1px solid var(--border);
-    border-radius:var(--radius-sm);
-    padding:4px 6px;
-    cursor:pointer;
-    font-size:10px;
-    color:var(--gray);
-    font-weight:500;
-    margin:0;
-    transition:all 0.15s;
-    text-align:center;
-    flex:1;
-    white-space:nowrap;
+    background:var(--gray-ultra); border:1.5px solid var(--border);
+    border-radius:var(--radius-sm); padding:6px 8px; cursor:pointer;
+    font-size:13px; color:var(--gray); font-weight:600; margin:0;
+    transition:all 0.15s; text-align:center; flex:1; white-space:nowrap;
   }
-  .toggle-group input[type=radio]:checked + label {
-    background:var(--green);
-    border-color:var(--green);
-    color:white;
-  }
-  /* 縦並びトグル */
-  .toggle-v { flex-direction:column; gap:3px; }
-  .toggle-v label { flex:none; text-align:left; }
+  .toggle-group input[type=radio]:checked + label { background:var(--green); border-color:var(--green); color:white; }
 
-  /* ===== DATE FIELD ===== */
-  .date-field { display:flex; align-items:center; gap:3px; }
-  .date-display {
-    flex:1;
-    background:var(--gray-ultra);
-    border:1px solid var(--border);
-    border-radius:var(--radius-sm);
-    padding:4px 7px;
-    font-size:11px;
-    color:var(--text);
-    cursor:pointer;
-    min-height:27px;
-    display:flex;
-    align-items:center;
-    transition:all 0.15s;
+  /* ===== SELECT ===== */
+  select {
+    width:100%; background:var(--gray-ultra); border:1.5px solid var(--border);
+    border-radius:var(--radius-sm); padding:6px 28px 6px 10px;
+    font-family:'Noto Sans JP',sans-serif; font-size:14px; font-weight:500;
+    color:var(--text); outline:none; appearance:none; -webkit-appearance:none;
+    cursor:pointer; min-height:36px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M0 0l6 7 6-7z' fill='%236b7280'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 8px center;
+    transition:border-color 0.15s;
   }
-  .date-display:active { border-color:var(--green-light); background:var(--white); }
-  .date-display.empty { color:var(--text-light); }
-  .cal-icon { font-size:15px; cursor:pointer; }
+  select:focus { border-color:var(--green-light); background-color:var(--white); box-shadow:0 0 0 2px rgba(90,122,90,0.1); }
+  select.big-select { font-size:15px; font-weight:600; min-height:40px; }
+
+  /* ===== 品目リスト ===== */
+  .items-list { display:flex; flex-direction:column; gap:4px; overflow-y:auto; flex:1; }
+  .item-row {
+    background:var(--gray-ultra); border:1.5px solid var(--border);
+    border-radius:var(--radius-sm); padding:6px 8px;
+    display:grid; grid-template-columns:1fr auto auto auto;
+    gap:6px; align-items:center;
+  }
+  .item-name-disp { font-size:13px; font-weight:600; color:var(--text); cursor:pointer; }
+  .item-name-disp.empty { color:var(--text-light); font-weight:400; }
+  .item-qty-disp { font-size:13px; color:var(--text-light); white-space:nowrap; cursor:pointer; min-width:36px; text-align:center; }
+  .item-price-disp { font-size:13px; font-weight:600; color:var(--green); white-space:nowrap; cursor:pointer; min-width:58px; text-align:right; }
+  .item-del { background:none; border:none; cursor:pointer; color:#e44; font-size:16px; padding:0 2px; line-height:1; }
+  .add-item-btn {
+    background:var(--green-pale); border:1.5px dashed var(--green-light);
+    border-radius:var(--radius-sm); padding:7px; text-align:center;
+    cursor:pointer; color:var(--green); font-size:13px; font-weight:600;
+    transition:all 0.15s; flex-shrink:0;
+  }
+  .add-item-btn:active { background:var(--green-ultra); }
 
   /* ===== PRICE BOX ===== */
   .price-box {
-    background:var(--green-ultra);
-    border:1px solid #c8d8c0;
-    border-radius:var(--radius-sm);
-    padding:5px 7px;
-    margin-top:4px;
+    background:var(--green-ultra); border:1.5px solid #c8d8c0;
+    border-radius:var(--radius-sm); padding:7px 10px;
   }
-  .price-row {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:1px 0;
-    font-size:10px;
+  .price-row { display:flex; justify-content:space-between; align-items:center; padding:2px 0; font-size:12px; }
+  .price-row .lbl { color:var(--text-light); font-weight:500; }
+  .price-row .val { font-weight:600; color:var(--text); font-size:13px; }
+  .price-total { border-top:1.5px solid #c8d8c0; margin-top:4px; padding-top:4px; }
+  .price-total .lbl { font-size:13px; font-weight:700; color:var(--green); }
+  .price-total .val { font-size:20px; font-weight:700; color:var(--green); font-family:'Shippori Mincho',serif; }
+
+  /* tax toggle */
+  .tax-toggle { display:flex; gap:4px; margin-bottom:5px; }
+  .tax-toggle input[type=radio] { display:none; }
+  .tax-toggle label {
+    background:var(--gray-ultra); border:1.5px solid var(--border);
+    border-radius:var(--radius-sm); padding:4px 10px; cursor:pointer;
+    font-size:12px; font-weight:600; color:var(--gray); transition:all 0.15s; flex:1; text-align:center;
   }
-  .price-row .lbl { color:var(--text-light); }
-  .price-row .val { font-weight:600; color:var(--text); }
-  .price-total {
-    border-top:1px solid #c8d8c0;
-    margin-top:3px;
-    padding-top:3px;
-    font-size:13px;
-    font-weight:700;
-    color:var(--green);
-  }
+  .tax-toggle input[type=radio]:checked + label { background:var(--green); border-color:var(--green); color:white; }
 
   /* ===== STATUS BAR ===== */
   .status-bar {
-    background:var(--white);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:4px 12px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    box-shadow:var(--shadow);
-    grid-column:1/4;
+    background:var(--white); border:1px solid var(--border); border-radius:var(--radius);
+    padding:5px 14px; display:flex; align-items:center; justify-content:space-between;
+    box-shadow:var(--shadow); grid-column:1/4;
   }
-  .status-info { font-size:10px; color:var(--text-light); }
-  .status-time { font-size:10px; font-weight:500; color:var(--green); }
-  .receipt-no {
-    font-family:'Shippori Mincho',serif;
-    font-size:13px; font-weight:600; color:var(--green); letter-spacing:0.1em;
-  }
+  .status-info { font-size:11px; color:var(--text-light); }
+  .status-time { font-size:12px; font-weight:600; color:var(--green); }
+  .receipt-no { font-family:'Shippori Mincho',serif; font-size:15px; font-weight:700; color:var(--green); letter-spacing:0.1em; }
 
-  /* ===== MODAL CALENDAR ===== */
+  .card-disabled { opacity:0.35; pointer-events:none; }
+
+  /* ===== INPUT MODAL ===== */
+  .input-modal-overlay {
+    display:none; position:fixed; inset:0;
+    background:rgba(0,0,0,0.45); z-index:200;
+    align-items:flex-end; justify-content:center;
+  }
+  .input-modal-overlay.active { display:flex; }
+  .input-modal {
+    background:white; border-radius:20px 20px 0 0;
+    width:100%; max-width:680px; padding:20px 22px 32px;
+    box-shadow:0 -8px 40px rgba(0,0,0,0.18);
+    animation:slideUp 0.22s ease;
+  }
+  @keyframes slideUp { from{transform:translateY(40px);opacity:0} to{transform:translateY(0);opacity:1} }
+  .input-modal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .input-modal-title { font-size:16px; font-weight:700; color:var(--green); }
+  .input-modal-close {
+    background:var(--gray-ultra); border:1px solid var(--border); border-radius:8px;
+    padding:6px 14px; font-size:13px; font-weight:600; cursor:pointer; color:var(--gray);
+    font-family:'Noto Sans JP',sans-serif;
+  }
+  .input-modal input[type=text],
+  .input-modal input[type=tel],
+  .input-modal input[type=number] {
+    width:100%; background:var(--gray-ultra); border:2px solid var(--border);
+    border-radius:10px; padding:12px 14px; font-family:'Noto Sans JP',sans-serif;
+    font-size:18px; font-weight:500; color:var(--text); outline:none;
+    appearance:none; -webkit-appearance:none; -moz-appearance:textfield;
+    transition:border-color 0.15s;
+  }
+  .input-modal input[type=number]::-webkit-inner-spin-button,
+  .input-modal input[type=number]::-webkit-outer-spin-button { -webkit-appearance:none; }
+  .input-modal input:focus { border-color:var(--green); background:var(--white); box-shadow:0 0 0 3px rgba(90,122,90,0.12); }
+  .input-modal textarea {
+    width:100%; background:var(--gray-ultra); border:2px solid var(--border);
+    border-radius:10px; padding:12px 14px; font-family:'Noto Sans JP',sans-serif;
+    font-size:18px; font-weight:500; color:var(--text); outline:none; resize:none; line-height:1.7;
+    transition:border-color 0.15s;
+  }
+  .input-modal textarea:focus { border-color:var(--green); background:var(--white); box-shadow:0 0 0 3px rgba(90,122,90,0.12); }
+  .input-modal-done {
+    margin-top:12px; width:100%; background:var(--green); color:white;
+    border:none; border-radius:10px; padding:13px; font-size:16px; font-weight:700;
+    cursor:pointer; font-family:'Noto Sans JP',sans-serif;
+  }
+  .input-modal-done:active { background:#4a6a4a; }
+
+  /* item edit modal extra fields */
+  .item-edit-grid { display:grid; grid-template-columns:1fr 80px 110px; gap:8px; margin-bottom:8px; }
+  .item-edit-grid select { min-height:48px; font-size:15px; }
+  .item-edit-grid input { min-height:48px; }
+  .item-edit-label { font-size:11px; color:var(--text-light); font-weight:600; margin-bottom:3px; }
+
+  /* ===== CALENDAR MODAL ===== */
   .modal-overlay {
     display:none; position:fixed; inset:0;
-    background:rgba(0,0,0,0.3); z-index:100;
+    background:rgba(0,0,0,0.35); z-index:300;
     align-items:center; justify-content:center;
   }
   .modal-overlay.active { display:flex; }
-  .cal-modal {
-    background:white; border-radius:14px; padding:14px;
-    box-shadow:0 20px 60px rgba(0,0,0,0.2); width:288px;
-  }
-  .cal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
-  .cal-month-year { font-family:'Shippori Mincho',serif; font-size:15px; color:var(--green); font-weight:600; }
-  .cal-nav { background:none; border:none; font-size:18px; cursor:pointer; color:var(--green); padding:2px 6px; border-radius:6px; }
+  .cal-modal { background:white; border-radius:16px; padding:16px; box-shadow:0 20px 60px rgba(0,0,0,0.2); width:300px; }
+  .cal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .cal-month-year { font-family:'Shippori Mincho',serif; font-size:17px; color:var(--green); font-weight:600; }
+  .cal-nav { background:none; border:none; font-size:22px; cursor:pointer; color:var(--green); padding:2px 8px; border-radius:8px; }
   .cal-nav:active { background:var(--green-pale); }
-  .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
-  .cal-day-name { text-align:center; font-size:10px; color:var(--text-light); font-weight:600; padding:2px 0; }
-  .cal-day { text-align:center; padding:5px 2px; font-size:11px; border-radius:5px; cursor:pointer; color:var(--text); transition:all 0.1s; }
+  .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
+  .cal-day-name { text-align:center; font-size:11px; color:var(--text-light); font-weight:700; padding:3px 0; }
+  .cal-day { text-align:center; padding:7px 2px; font-size:13px; border-radius:7px; cursor:pointer; color:var(--text); transition:all 0.1s; }
   .cal-day:hover { background:var(--green-pale); }
   .cal-day.today { color:var(--green); font-weight:700; }
-  .cal-day.selected { background:var(--green); color:white; }
+  .cal-day.selected { background:var(--green); color:white; font-weight:700; }
   .cal-day.other-month { color:var(--gray-light); }
-  .cal-day.sunday { color:#e55; }
-  .cal-day.saturday { color:#55e; }
-  .cal-field-label { font-size:11px; color:var(--text-light); margin-bottom:6px; text-align:center; }
-  .cal-close { width:100%; margin-top:8px; background:var(--gray-ultra); border:1px solid var(--border); border-radius:8px; padding:7px; font-size:12px; cursor:pointer; color:var(--gray); font-family:'Noto Sans JP',sans-serif; }
+  .cal-day.sunday { color:#e44; }
+  .cal-day.saturday { color:#44c; }
+  .cal-field-label { font-size:12px; color:var(--text-light); margin-bottom:8px; text-align:center; }
+  .cal-close { width:100%; margin-top:10px; background:var(--gray-ultra); border:1px solid var(--border); border-radius:10px; padding:10px; font-size:14px; cursor:pointer; color:var(--gray); font-family:'Noto Sans JP',sans-serif; font-weight:600; }
 
   /* ===== TOAST ===== */
   .toast {
-    position:fixed; bottom:20px; left:50%;
-    transform:translateX(-50%) translateY(60px);
-    background:rgba(40,40,40,0.9); color:white;
-    padding:9px 18px; border-radius:20px; font-size:12px;
-    z-index:200; transition:transform 0.3s ease; white-space:nowrap;
+    position:fixed; bottom:24px; left:50%;
+    transform:translateX(-50%) translateY(70px);
+    background:rgba(40,40,40,0.92); color:white;
+    padding:10px 20px; border-radius:22px; font-size:13px;
+    z-index:400; transition:transform 0.3s ease; white-space:nowrap;
   }
   .toast.show { transform:translateX(-50%) translateY(0); }
 
   /* ===== PRINT MODAL ===== */
-  .print-overlay {
-    display:none; position:fixed; inset:0;
-    background:rgba(0,0,0,0.55); z-index:150;
-    align-items:center; justify-content:center;
-  }
+  .print-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:250; align-items:center; justify-content:center; }
   .print-overlay.active { display:flex; }
-  .print-modal-inner {
-    background:#f0f0ec; border-radius:14px;
-    width:min(680px,96vw); max-height:92dvh;
-    overflow-y:auto; box-shadow:0 24px 80px rgba(0,0,0,0.35);
-    display:flex; flex-direction:column;
-  }
-  .print-toolbar {
-    background:white; border-radius:14px 14px 0 0;
-    padding:9px 14px; display:flex; align-items:center;
-    justify-content:space-between; border-bottom:1px solid #ddd;
-    position:sticky; top:0; z-index:10;
-  }
-
-  /* disabled */
-  .card-disabled { opacity:0.4; pointer-events:none; }
-
-  /* qty */
-  .qty-wrap { position:relative; }
-  .qty-unit { position:absolute; right:7px; top:50%; transform:translateY(-50%); font-size:10px; color:var(--text-light); pointer-events:none; }
-  .qty-wrap input { padding-right:20px; }
-
-  /* 受付情報内レイアウト */
-  .accept-inner { display:grid; grid-template-columns:1fr 100px; gap:8px; flex:1; }
-  .accept-left { display:flex; flex-direction:column; gap:4px; }
-  .accept-right { display:flex; flex-direction:column; }
+  .print-modal-inner { background:#f0f0ec; border-radius:16px; width:min(680px,96vw); max-height:92dvh; overflow-y:auto; box-shadow:0 24px 80px rgba(0,0,0,0.3); display:flex; flex-direction:column; }
+  .print-toolbar { background:white; border-radius:16px 16px 0 0; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #ddd; position:sticky; top:0; z-index:10; }
 </style>
 </head>
 <body>
@@ -343,14 +307,13 @@
 <!-- HEADER -->
 <div class="app-header">
   <div class="shop-title">
-    <span>🌸</span>
-    <span>お花屋さん 注文伝票</span>
+    <span>🌸</span><span>お花屋さん 注文伝票</span>
     <span class="order-badge" id="receipt-no">No. 0001</span>
   </div>
   <div class="header-actions">
     <button class="btn btn-new" onclick="newOrder()">＋ 新規</button>
     <button class="btn btn-save" onclick="saveToDrive()">💾 保存</button>
-    <button class="btn btn-drive" onclick="sendToDrive()">☁ Drive転送</button>
+    <button class="btn btn-drive" onclick="sendToDrive()">☁ Drive</button>
     <button class="btn btn-print" onclick="openPrintPreview()">🖨 印刷プレビュー</button>
   </div>
 </div>
@@ -360,65 +323,57 @@
   <!-- ===== 上段左：受付情報 ===== -->
   <div class="card">
     <div class="card-title">📋 受付情報</div>
-    <div class="accept-inner">
-      <div class="accept-left">
-        <div class="field">
-          <label>受付日</label>
-          <div class="date-field">
-            <div class="date-display" id="accept-date-disp" onclick="openCal('accept-date','受付日')"></div>
-            <span class="cal-icon" onclick="openCal('accept-date','受付日')">📅</span>
-          </div>
-          <input type="hidden" id="accept-date">
-        </div>
-        <div class="field">
-          <label>お渡し方法</label>
-          <div class="toggle-group">
-            <input type="radio" name="delivery-type" id="dt-visit" value="来店" checked onchange="toggleDelivery()">
-            <label for="dt-visit">🏪 来店</label>
-            <input type="radio" name="delivery-type" id="dt-delivery" value="配達" onchange="toggleDelivery()">
-            <label for="dt-delivery">🚗 配達</label>
-            <input type="radio" name="delivery-type" id="dt-shipping" value="宅配" onchange="toggleDelivery()">
-            <label for="dt-shipping">📦 宅配</label>
-          </div>
-        </div>
-        <div class="f2">
-          <div class="field">
-            <label id="date-label">来店日</label>
-            <div class="date-field">
-              <div class="date-display empty" id="delivery-date-disp" onclick="openCal('delivery-date','来店日')">日付選択</div>
-              <span class="cal-icon" onclick="openCal('delivery-date','来店日')">📅</span>
-            </div>
-            <input type="hidden" id="delivery-date">
-          </div>
-          <div class="field">
-            <label>時間帯</label>
-            <div class="f2" style="gap:3px">
-              <select id="time-ampm">
-                <option value="">--</option>
-                <option>午前</option><option>午後</option>
-              </select>
-              <select id="time-hour">
-                <option value="">--時</option>
-                <option>8時</option><option>9時</option><option>10時</option>
-                <option>11時</option><option>12時</option><option>13時</option>
-                <option>14時</option><option>15時</option><option>16時</option>
-                <option>17時</option><option>18時</option><option>19時</option>
-              </select>
-            </div>
-          </div>
+
+    <!-- 受付日（小さく） -->
+    <div class="accept-date-row" onclick="openCal('accept-date','受付日')">
+      <span class="accept-date-small">📅 受付日</span>
+      <span class="accept-date-val" id="accept-date-disp">—</span>
+      <input type="hidden" id="accept-date">
+    </div>
+
+    <!-- お渡し方法 -->
+    <div class="field">
+      <div class="field-label">お渡し方法</div>
+      <div class="toggle-group">
+        <input type="radio" name="delivery-type" id="dt-visit" value="来店" checked onchange="toggleDelivery()">
+        <label for="dt-visit">🏪 来店</label>
+        <input type="radio" name="delivery-type" id="dt-delivery" value="配達" onchange="toggleDelivery()">
+        <label for="dt-delivery">🚗 配達</label>
+        <input type="radio" name="delivery-type" id="dt-shipping" value="宅配" onchange="toggleDelivery()">
+        <label for="dt-shipping">📦 宅配</label>
+      </div>
+    </div>
+
+    <!-- 来店日／お届け日（大きく） -->
+    <div class="field">
+      <div class="delivery-date-big" onclick="openCal('delivery-date', document.getElementById('date-label').textContent)">
+        <span class="cal-icon">📅</span>
+        <div>
+          <div class="delivery-date-big-label" id="date-label">来店日</div>
+          <div class="delivery-date-big-val empty" id="delivery-date-disp">日付を選択してください</div>
         </div>
       </div>
-      <!-- 右：受付方法（縦） -->
-      <div class="accept-right">
-        <label>受付方法</label>
-        <div class="toggle-group toggle-v" style="margin-top:3px;flex:1;">
-          <input type="radio" name="accept-type" id="at-visit" value="来店受付" checked>
-          <label for="at-visit">🏪 来店</label>
-          <input type="radio" name="accept-type" id="at-phone" value="電話受付">
-          <label for="at-phone">📞 電話</label>
-          <input type="radio" name="accept-type" id="at-web" value="WEB受付">
-          <label for="at-web">🌐 WEB</label>
-        </div>
+      <input type="hidden" id="delivery-date">
+    </div>
+
+    <!-- 時間帯 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+      <div class="field">
+        <div class="field-label">午前・午後</div>
+        <select id="time-ampm">
+          <option value="">--</option>
+          <option>午前</option><option>午後</option>
+        </select>
+      </div>
+      <div class="field">
+        <div class="field-label">時間</div>
+        <select id="time-hour">
+          <option value="">--時ごろ</option>
+          <option>8時</option><option>9時</option><option>10時</option>
+          <option>11時</option><option>12時</option><option>13時</option>
+          <option>14時</option><option>15時</option><option>16時</option>
+          <option>17時</option><option>18時</option><option>19時</option>
+        </select>
       </div>
     </div>
   </div>
@@ -427,16 +382,19 @@
   <div class="card">
     <div class="card-title">👤 ご注文主</div>
     <div class="field">
-      <label>お名前</label>
-      <input type="text" id="order-name" placeholder="山田 花子 様">
+      <div class="field-label">お名前</div>
+      <div class="val-display big-name empty" id="disp-order-name" onclick="openInput('order-name','ご注文主　お名前','text','山田 花子 様')">お名前を入力</div>
+      <input type="hidden" id="order-name">
     </div>
     <div class="field">
-      <label>電話番号</label>
-      <input type="tel" id="order-tel" placeholder="000-0000-0000">
+      <div class="field-label">電話番号</div>
+      <div class="val-display empty" id="disp-order-tel" onclick="openInput('order-tel','電話番号','tel','000-0000-0000')">電話番号を入力</div>
+      <input type="hidden" id="order-tel">
     </div>
     <div class="field">
-      <label>ご住所</label>
-      <input type="text" id="order-addr" placeholder="〒000-0000 住所">
+      <div class="field-label">ご住所</div>
+      <div class="val-display empty" id="disp-order-addr" onclick="openInput('order-addr','ご住所','text','〒000-0000 住所')">住所を入力</div>
+      <input type="hidden" id="order-addr">
     </div>
   </div>
 
@@ -444,45 +402,33 @@
   <div class="card" id="delivery-card">
     <div class="card-title">📍 お届け先</div>
     <div class="field">
-      <label>お名前</label>
-      <input type="text" id="dest-name" placeholder="鈴木 太郎 様">
+      <div class="field-label">お名前</div>
+      <div class="val-display big-name empty" id="disp-dest-name" onclick="openInput('dest-name','お届け先　お名前','text','鈴木 太郎 様')">お名前を入力</div>
+      <input type="hidden" id="dest-name">
     </div>
     <div class="field">
-      <label>電話番号</label>
-      <input type="tel" id="dest-tel" placeholder="000-0000-0000">
+      <div class="field-label">電話番号</div>
+      <div class="val-display empty" id="disp-dest-tel" onclick="openInput('dest-tel','お届け先　電話番号','tel','000-0000-0000')">電話番号を入力</div>
+      <input type="hidden" id="dest-tel">
     </div>
     <div class="field">
-      <label>ご住所</label>
-      <input type="text" id="dest-addr" placeholder="〒000-0000 住所">
+      <div class="field-label">ご住所</div>
+      <div class="val-display empty" id="disp-dest-addr" onclick="openInput('dest-addr','お届け先　ご住所','text','〒000-0000 住所')">住所を入力</div>
+      <input type="hidden" id="dest-addr">
     </div>
     <div class="field">
-      <label>備考（建物名など）</label>
-      <input type="text" id="dest-note" placeholder="例：○○マンション201号室">
+      <div class="field-label">備考（建物名など）</div>
+      <div class="val-display empty" id="disp-dest-note" onclick="openInput('dest-note','建物名・備考','text','例：○○マンション201号室')">備考を入力</div>
+      <input type="hidden" id="dest-note">
     </div>
   </div>
 
-  <!-- ===== 中段左：ご注文品 ===== -->
+  <!-- ===== 中段左：ご注文品（複数対応） ===== -->
   <div class="card">
     <div class="card-title">💐 ご注文品</div>
     <div class="field">
-      <label>品名</label>
-      <select id="item-name">
-        <option value="">選択してください</option>
-        <option>ブーケ調花束</option><option>花束</option>
-        <option>お祝いアレンジ</option><option>お供えアレンジ</option>
-        <option>鉢花</option><option>コチョウラン</option>
-        <option>切り花</option><option>仏花</option>
-        <option>サカキ</option><option>墓花</option>
-        <option>演台用</option><option>スタンド花</option><option>その他</option>
-      </select>
-    </div>
-    <div class="field">
-      <label>品名・詳細（自由入力）</label>
-      <input type="text" id="item-detail" placeholder="色・サイズ・品種など">
-    </div>
-    <div class="field">
-      <label>用途</label>
-      <select id="purpose">
+      <div class="field-label">用途</div>
+      <select id="purpose" class="big-select">
         <option value="">選択してください</option>
         <option>お祝い</option><option>誕生日</option><option>お見舞い</option>
         <option>送別用</option><option>発表会</option><option>結婚</option>
@@ -490,27 +436,18 @@
         <option>お歳暮</option><option>お供え</option><option>その他</option>
       </select>
     </div>
-    <div class="f2">
-      <div class="field">
-        <label>数量</label>
-        <div class="qty-wrap">
-          <input type="number" id="qty" value="1" min="1" oninput="calcTotal()">
-          <span class="qty-unit">個</span>
-        </div>
-      </div>
-      <div class="field">
-        <label>単価（円）</label>
-        <input type="number" id="price" placeholder="0" oninput="calcTotal()">
-      </div>
-    </div>
+    <!-- 品目リスト -->
+    <div class="items-list" id="items-list"></div>
+    <!-- 品目追加ボタン -->
+    <div class="add-item-btn" onclick="addItem()">＋ 品目を追加</div>
   </div>
 
   <!-- ===== 中段中：イメージ・花材 ===== -->
   <div class="card">
     <div class="card-title">🎨 イメージ・花材</div>
     <div class="field">
-      <label>カラーイメージ</label>
-      <select id="color-image">
+      <div class="field-label">カラーイメージ</div>
+      <select id="color-image" class="big-select">
         <option value="">選択</option>
         <option>ピンク系</option><option>白系</option><option>赤系</option>
         <option>黄色系</option><option>オレンジ系</option><option>紫系</option>
@@ -519,32 +456,48 @@
       </select>
     </div>
     <div class="field" style="flex:1;display:flex;flex-direction:column;">
-      <label>ご希望花材・避けたい花材</label>
-      <textarea id="flower-material" style="flex:1;" placeholder="例：バラ多め、ユリNG など"></textarea>
+      <div class="field-label">ご希望花材・避けたい花材</div>
+      <div class="val-display empty" id="disp-flower-material"
+           style="flex:1;align-items:flex-start;padding-top:8px;"
+           onclick="openTextarea('flower-material','ご希望花材・避けたい花材','例：バラ多め、ユリNG など')">タップして入力</div>
+      <input type="hidden" id="flower-material">
     </div>
   </div>
 
   <!-- ===== 中段右：お会計 ===== -->
   <div class="card">
     <div class="card-title">💴 お会計</div>
-    <div class="f2">
-      <div class="field">
-        <label>商品代金（円）</label>
-        <input type="number" id="subtotal" placeholder="0" oninput="calcTotal()">
-      </div>
-      <div class="field">
-        <label>配達料（円）</label>
-        <input type="number" id="delivery-fee" value="0" oninput="calcTotal()">
+
+    <!-- 税込・税抜切替 -->
+    <div>
+      <div class="field-label">金額の入力方式</div>
+      <div class="tax-toggle">
+        <input type="radio" name="tax-mode" id="tax-excl" value="excl" checked onchange="calcTotal()">
+        <label for="tax-excl">税抜き入力</label>
+        <input type="radio" name="tax-mode" id="tax-incl" value="incl" onchange="calcTotal()">
+        <label for="tax-incl">税込み入力</label>
       </div>
     </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+      <div class="field">
+        <div class="field-label">配達料（円）</div>
+        <div class="val-display empty" id="disp-delivery-fee-in"
+             onclick="openInput('delivery-fee','配達料（円）','number','0')">金額を入力</div>
+        <input type="hidden" id="delivery-fee">
+      </div>
+      <div></div>
+    </div>
+
     <div class="price-box">
-      <div class="price-row"><span class="lbl">商品代金</span><span class="val" id="disp-subtotal">¥0</span></div>
+      <div class="price-row"><span class="lbl">商品小計</span><span class="val" id="disp-items-sub">¥0</span></div>
       <div class="price-row"><span class="lbl">配達料</span><span class="val" id="disp-delivery">¥0</span></div>
-      <div class="price-row"><span class="lbl">消費税（10%）</span><span class="val" id="disp-tax">¥0</span></div>
-      <div class="price-row price-total"><span class="lbl">合計</span><span class="val" id="disp-total">¥0</span></div>
+      <div class="price-row" id="tax-row"><span class="lbl">消費税（10%）</span><span class="val" id="disp-tax">¥0</span></div>
+      <div class="price-row price-total"><span class="lbl">合計（税込）</span><span class="val" id="disp-total">¥0</span></div>
     </div>
-    <div class="field" style="margin-top:5px;">
-      <label>お支払い状況</label>
+
+    <div class="field" style="margin-top:2px;">
+      <div class="field-label">お支払い状況</div>
       <div class="toggle-group">
         <input type="radio" name="pay-status" id="pay-done" value="代金済">
         <label for="pay-done">✓ 代金済</label>
@@ -560,8 +513,8 @@
   <div class="card" id="shipping-card">
     <div class="card-title">📦 宅配・お届け情報</div>
     <div class="field">
-      <label>お届け先都道府県</label>
-      <select id="prefecture">
+      <div class="field-label">お届け先都道府県</div>
+      <select id="prefecture" class="big-select">
         <option value="">選択してください</option>
         <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option>
         <option>秋田県</option><option>山形県</option><option>福島県</option><option>茨城県</option>
@@ -578,12 +531,17 @@
       </select>
     </div>
     <div class="field">
-      <label>お届け先お名前</label>
-      <input type="text" id="ship-name" placeholder="受取人のお名前">
+      <div class="field-label">お届け先お名前</div>
+      <div class="val-display big-name empty" id="disp-ship-name"
+           onclick="openInput('ship-name','お届け先お名前','text','受取人のお名前')">お名前を入力</div>
+      <input type="hidden" id="ship-name">
     </div>
     <div class="field" style="flex:1;display:flex;flex-direction:column;">
-      <label>備考</label>
-      <textarea id="ship-note" style="flex:1;" placeholder="時間指定・その他"></textarea>
+      <div class="field-label">備考</div>
+      <div class="val-display empty" id="disp-ship-note"
+           style="flex:1;align-items:flex-start;padding-top:8px;"
+           onclick="openTextarea('ship-note','宅配備考','時間指定・その他')">タップして入力</div>
+      <input type="hidden" id="ship-note">
     </div>
   </div>
 
@@ -591,7 +549,7 @@
   <div class="card">
     <div class="card-title">✉️ メッセージカード</div>
     <div class="field">
-      <label>カードの有無</label>
+      <div class="field-label">カードの有無</div>
       <div class="toggle-group">
         <input type="radio" name="card-type" id="card-none" value="なし" checked>
         <label for="card-none">なし</label>
@@ -600,31 +558,89 @@
       </div>
     </div>
     <div class="field" style="flex:1;display:flex;flex-direction:column;">
-      <label>メッセージ内容</label>
-      <textarea id="msg-text" style="flex:1;" placeholder="お誕生日おめでとうございます。いつもありがとう！"></textarea>
+      <div class="field-label">メッセージ内容</div>
+      <div class="val-display empty" id="disp-msg-text"
+           style="flex:1;align-items:flex-start;padding-top:8px;"
+           onclick="openTextarea('msg-text','メッセージ内容','お誕生日おめでとうございます。いつもありがとう！')">タップして入力</div>
+      <input type="hidden" id="msg-text">
     </div>
   </div>
 
   <!-- ===== 下段右：備考 ===== -->
   <div class="card">
     <div class="card-title">📝 備考・スタッフメモ</div>
-    <textarea id="notes" style="flex:1;width:100%;font-size:11px;line-height:1.6;" placeholder="ラッピング指定、特記事項など..."></textarea>
+    <div class="field" style="flex:1;display:flex;flex-direction:column;">
+      <div class="val-display empty" id="disp-notes"
+           style="flex:1;align-items:flex-start;padding-top:8px;"
+           onclick="openTextarea('notes','備考・スタッフメモ','ラッピング指定、特記事項など...')">タップして入力</div>
+      <input type="hidden" id="notes">
+    </div>
   </div>
 
-  <!-- ===== STATUS BAR ===== -->
+  <!-- STATUS BAR -->
   <div class="status-bar">
     <div class="status-info" id="status-info">最終更新: —</div>
     <div style="display:flex;align-items:center;gap:10px;">
-      <span style="font-size:10px;color:var(--text-light);">注文No.</span>
+      <span style="font-size:11px;color:var(--text-light);">注文No.</span>
       <span class="receipt-no" id="order-no-disp">0001</span>
-      <span style="font-size:10px;color:var(--text-light);">|</span>
+      <span style="font-size:11px;color:var(--text-light);">|</span>
       <span class="status-time" id="current-time"></span>
     </div>
   </div>
 
 </div><!-- /main -->
 
-<!-- CALENDAR MODAL -->
+<!-- ===== INPUT MODAL ===== -->
+<div class="input-modal-overlay" id="input-modal" onclick="closeInputModal(event)">
+  <div class="input-modal" onclick="event.stopPropagation()">
+    <div class="input-modal-header">
+      <div class="input-modal-title" id="input-modal-title">入力</div>
+      <button class="input-modal-close" onclick="commitInput()">✕ 閉じる</button>
+    </div>
+    <input type="text" id="input-modal-field" style="display:none;">
+    <textarea id="input-modal-textarea" rows="5" style="display:none;"></textarea>
+    <button class="input-modal-done" onclick="commitInput()">✓ 決定</button>
+  </div>
+</div>
+
+<!-- ===== ITEM EDIT MODAL ===== -->
+<div class="input-modal-overlay" id="item-modal" onclick="closeItemModal(event)">
+  <div class="input-modal" onclick="event.stopPropagation()">
+    <div class="input-modal-header">
+      <div class="input-modal-title">品目の入力</div>
+      <button class="input-modal-close" onclick="commitItem()">✕ 閉じる</button>
+    </div>
+    <div class="item-edit-grid">
+      <div>
+        <div class="item-edit-label">品名</div>
+        <select id="im-name" class="big-select">
+          <option value="">選択してください</option>
+          <option>ブーケ調花束</option><option>花束</option>
+          <option>お祝いアレンジ</option><option>お供えアレンジ</option>
+          <option>鉢花</option><option>コチョウラン</option>
+          <option>切り花</option><option>仏花</option>
+          <option>サカキ</option><option>墓花</option>
+          <option>演台用</option><option>スタンド花</option><option>その他</option>
+        </select>
+      </div>
+      <div>
+        <div class="item-edit-label">数量</div>
+        <input type="number" id="im-qty" min="1" value="1" style="text-align:center;">
+      </div>
+      <div>
+        <div class="item-edit-label">金額（円）</div>
+        <input type="number" id="im-price" min="0" placeholder="0">
+      </div>
+    </div>
+    <div style="margin-bottom:8px;">
+      <div class="item-edit-label">詳細（色・サイズなど）</div>
+      <input type="text" id="im-detail" placeholder="例：赤バラメイン、Mサイズ">
+    </div>
+    <button class="input-modal-done" onclick="commitItem()">✓ この品目を確定</button>
+  </div>
+</div>
+
+<!-- ===== CALENDAR MODAL ===== -->
 <div class="modal-overlay" id="cal-modal" onclick="closeCal(event)">
   <div class="cal-modal" onclick="event.stopPropagation()">
     <div class="cal-field-label" id="cal-field-label">日付を選択</div>
@@ -634,36 +650,35 @@
       <button class="cal-nav" onclick="calNav(1)">›</button>
     </div>
     <div class="cal-grid">
-      <div class="cal-day-name" style="color:#e55">日</div>
+      <div class="cal-day-name" style="color:#e44">日</div>
       <div class="cal-day-name">月</div><div class="cal-day-name">火</div>
       <div class="cal-day-name">水</div><div class="cal-day-name">木</div>
       <div class="cal-day-name">金</div>
-      <div class="cal-day-name" style="color:#55e">土</div>
+      <div class="cal-day-name" style="color:#44c">土</div>
     </div>
     <div class="cal-grid" id="cal-days"></div>
     <button class="cal-close" onclick="closeCal(null)">キャンセル</button>
   </div>
 </div>
 
-<!-- PRINT PREVIEW MODAL -->
+<!-- ===== PRINT PREVIEW MODAL ===== -->
 <div class="print-overlay" id="print-modal" onclick="closePrintPreview(event)">
   <div class="print-modal-inner" onclick="event.stopPropagation()">
     <div class="print-toolbar">
       <span style="font-family:'Shippori Mincho',serif;font-size:15px;color:#5a7a5a;font-weight:600;">🖨 印刷プレビュー</span>
       <div style="display:flex;gap:8px;">
-        <button onclick="doPrint()" style="background:#5a7a5a;color:white;border:none;border-radius:7px;padding:7px 18px;font-size:13px;font-family:'Noto Sans JP',sans-serif;font-weight:600;cursor:pointer;">印刷する</button>
-        <button onclick="closePrintPreview(null)" style="background:#f0f0ec;color:#6b7280;border:1px solid #ccc;border-radius:7px;padding:7px 12px;font-size:13px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;">閉じる</button>
+        <button onclick="doPrint()" style="background:#5a7a5a;color:white;border:none;border-radius:8px;padding:8px 20px;font-size:14px;font-family:'Noto Sans JP',sans-serif;font-weight:700;cursor:pointer;">印刷する</button>
+        <button onclick="closePrintPreview(null)" style="background:#f0f0ec;color:#6b7280;border:1px solid #ccc;border-radius:8px;padding:8px 14px;font-size:13px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;">閉じる</button>
       </div>
     </div>
-    <div id="print-slip" style="padding:14px 18px 18px;"></div>
+    <div id="print-slip" style="padding:16px 20px 22px;"></div>
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ORDER NUMBER
+// ===== ORDER NUMBER =====
 let orderCount = parseInt(localStorage.getItem('flower_order_count') || '1');
 function updateOrderNo() {
   const no = String(orderCount).padStart(4,'0');
@@ -672,16 +687,16 @@ function updateOrderNo() {
 }
 updateOrderNo();
 
-// TIME
+// ===== TIME =====
 function updateTime() {
   const now = new Date();
-  const t = now.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});
-  const d = now.toLocaleDateString('ja-JP',{year:'numeric',month:'long',day:'numeric',weekday:'short'});
-  document.getElementById('current-time').textContent = d + ' ' + t;
+  document.getElementById('current-time').textContent =
+    now.toLocaleDateString('ja-JP',{year:'numeric',month:'long',day:'numeric',weekday:'short'}) + ' ' +
+    now.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});
 }
 setInterval(updateTime,1000); updateTime();
 
-// DELIVERY TOGGLE
+// ===== DELIVERY TOGGLE =====
 function toggleDelivery() {
   const val = document.querySelector('input[name="delivery-type"]:checked').value;
   const dc = document.getElementById('delivery-card');
@@ -696,48 +711,214 @@ function toggleDelivery() {
   }
 }
 
-// CALC
-function calcTotal() {
-  const sub = parseFloat(document.getElementById('subtotal').value)||0;
-  const dlv = parseFloat(document.getElementById('delivery-fee').value)||0;
-  const tax = Math.floor((sub+dlv)*0.1);
-  const total = sub+dlv+tax;
-  document.getElementById('disp-subtotal').textContent='¥'+sub.toLocaleString();
-  document.getElementById('disp-delivery').textContent='¥'+dlv.toLocaleString();
-  document.getElementById('disp-tax').textContent='¥'+tax.toLocaleString();
-  document.getElementById('disp-total').textContent='¥'+total.toLocaleString();
+// ===== ITEMS =====
+let items = []; // [{name, detail, qty, price}]
+let editingItemIndex = -1;
+
+function renderItems() {
+  const list = document.getElementById('items-list');
+  list.innerHTML = '';
+  if (items.length === 0) {
+    list.innerHTML = '<div style="font-size:12px;color:var(--text-light);text-align:center;padding:8px;">品目がありません。下の「＋ 品目を追加」から追加してください。</div>';
+  }
+  items.forEach((item, i) => {
+    const fmt = n => '¥' + (n||0).toLocaleString();
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    const nameText = [item.name, item.detail].filter(Boolean).join(' ');
+    row.innerHTML = `
+      <div class="item-name-disp${nameText?'':' empty'}" onclick="editItem(${i})">${nameText||'品名未入力'}</div>
+      <div class="item-qty-disp" onclick="editItem(${i})">${item.qty||1}個</div>
+      <div class="item-price-disp" onclick="editItem(${i})">${item.price?fmt(item.price*(item.qty||1)):'-'}</div>
+      <button class="item-del" onclick="deleteItem(${i})">✕</button>
+    `;
+    list.appendChild(row);
+  });
+  calcTotal();
 }
 
-// CALENDAR
+function addItem() {
+  editingItemIndex = -1;
+  document.getElementById('im-name').value = '';
+  document.getElementById('im-qty').value = '1';
+  document.getElementById('im-price').value = '';
+  document.getElementById('im-detail').value = '';
+  document.getElementById('item-modal').classList.add('active');
+  setTimeout(()=>document.getElementById('im-price').focus(),150);
+}
+
+function editItem(i) {
+  editingItemIndex = i;
+  const item = items[i];
+  document.getElementById('im-name').value = item.name || '';
+  document.getElementById('im-qty').value = item.qty || 1;
+  document.getElementById('im-price').value = item.price || '';
+  document.getElementById('im-detail').value = item.detail || '';
+  document.getElementById('item-modal').classList.add('active');
+}
+
+function commitItem() {
+  const name   = document.getElementById('im-name').value;
+  const qty    = parseInt(document.getElementById('im-qty').value) || 1;
+  const price  = parseFloat(document.getElementById('im-price').value) || 0;
+  const detail = document.getElementById('im-detail').value.trim();
+  const newItem = { name, detail, qty, price };
+  if (editingItemIndex >= 0) {
+    items[editingItemIndex] = newItem;
+  } else {
+    items.push(newItem);
+  }
+  document.getElementById('item-modal').classList.remove('active');
+  renderItems();
+}
+
+function deleteItem(i) {
+  items.splice(i, 1);
+  renderItems();
+}
+
+function closeItemModal(e) {
+  if (!e || e.target === document.getElementById('item-modal')) {
+    document.getElementById('item-modal').classList.remove('active');
+  }
+}
+
+// ===== CALC TOTAL =====
+function calcTotal() {
+  const taxMode = document.querySelector('input[name="tax-mode"]:checked').value; // excl or incl
+  const dlv = parseFloat(hv('delivery-fee')) || 0;
+
+  // sum items
+  let itemsSub = 0;
+  items.forEach(item => { itemsSub += (item.price||0) * (item.qty||1); });
+
+  let tax = 0, total = 0, itemsSubDisplay = 0;
+  if (taxMode === 'excl') {
+    // 税抜き入力: 税を加算
+    tax = Math.floor((itemsSub + dlv) * 0.1);
+    total = itemsSub + dlv + tax;
+    itemsSubDisplay = itemsSub;
+    document.getElementById('tax-row').style.display = '';
+    document.querySelector('label[for="tax-excl"]').textContent = '税抜き入力';
+    document.querySelector('.price-total .lbl').textContent = '合計（税込）';
+  } else {
+    // 税込み入力: 税は内税として計算
+    tax = Math.floor((itemsSub + dlv) * 10 / 110);
+    total = itemsSub + dlv;
+    itemsSubDisplay = itemsSub;
+    document.getElementById('tax-row').style.display = '';
+    document.querySelector('label[for="tax-incl"]').textContent = '税込み入力';
+    document.querySelector('.price-total .lbl').textContent = '合計（税込）';
+  }
+
+  const fmt = n => '¥' + n.toLocaleString();
+  document.getElementById('disp-items-sub').textContent = fmt(itemsSubDisplay);
+  document.getElementById('disp-delivery').textContent  = fmt(dlv);
+  document.getElementById('disp-tax').textContent       = fmt(tax) + (taxMode==='incl'?' (内税)':'');
+  document.getElementById('disp-total').textContent     = fmt(total);
+
+  // delivery-fee display
+  const dfDisp = document.getElementById('disp-delivery-fee-in');
+  if (dfDisp) {
+    if (dlv) { dfDisp.textContent = fmt(dlv); dfDisp.classList.remove('empty'); }
+    else { dfDisp.textContent = '金額を入力'; dfDisp.classList.add('empty'); }
+  }
+}
+
+// ===== HELPERS =====
+function hv(id) { return (document.getElementById(id)||{}).value || ''; }
+function g(id)  { const el = document.getElementById(id); return el ? (el.value||'').trim() : ''; }
+function gd(id) { const el = document.getElementById(id); return el ? (el.textContent||'').trim() : ''; }
+function rv(name){ const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : ''; }
+
+// ===== INPUT MODAL =====
+let currentInputId = null;
+let currentIsTextarea = false;
+
+function openInput(fieldId, title, inputType, placeholder) {
+  currentInputId = fieldId;
+  currentIsTextarea = false;
+  document.getElementById('input-modal-title').textContent = title;
+  const inp = document.getElementById('input-modal-field');
+  const ta  = document.getElementById('input-modal-textarea');
+  inp.style.display = 'block'; ta.style.display = 'none';
+  inp.type = inputType || 'text';
+  inp.placeholder = placeholder || '';
+  inp.value = hv(fieldId);
+  document.getElementById('input-modal').classList.add('active');
+  setTimeout(()=>inp.focus(), 120);
+}
+
+function openTextarea(fieldId, title, placeholder) {
+  currentInputId = fieldId;
+  currentIsTextarea = true;
+  document.getElementById('input-modal-title').textContent = title;
+  const inp = document.getElementById('input-modal-field');
+  const ta  = document.getElementById('input-modal-textarea');
+  inp.style.display = 'none'; ta.style.display = 'block';
+  ta.placeholder = placeholder || '';
+  ta.value = hv(fieldId);
+  document.getElementById('input-modal').classList.add('active');
+  setTimeout(()=>ta.focus(), 120);
+}
+
+function commitInput() {
+  if (!currentInputId) { document.getElementById('input-modal').classList.remove('active'); return; }
+  const val = currentIsTextarea
+    ? document.getElementById('input-modal-textarea').value
+    : document.getElementById('input-modal-field').value;
+
+  document.getElementById(currentInputId).value = val;
+
+  // find display element
+  const dispEl = document.getElementById('disp-' + currentInputId);
+  if (dispEl) {
+    if (val.trim()) { dispEl.textContent = val; dispEl.classList.remove('empty'); }
+    else {
+      const ph = currentIsTextarea
+        ? document.getElementById('input-modal-textarea').placeholder
+        : document.getElementById('input-modal-field').placeholder;
+      dispEl.textContent = ph; dispEl.classList.add('empty');
+    }
+  }
+
+  if (currentInputId === 'delivery-fee') calcTotal();
+  document.getElementById('input-modal').classList.remove('active');
+}
+
+function closeInputModal(e) {
+  if (!e || e.target === document.getElementById('input-modal')) commitInput();
+}
+
+// ===== CALENDAR =====
 let calTarget=null, calYear=0, calMonth=0, calSelectedDate={};
-function openCal(id,label) {
-  calTarget=id;
-  const now=new Date();
+function openCal(id, label) {
+  calTarget = id;
   if (calSelectedDate[id]) { const d=new Date(calSelectedDate[id]); calYear=d.getFullYear(); calMonth=d.getMonth(); }
-  else { calYear=now.getFullYear(); calMonth=now.getMonth(); }
-  document.getElementById('cal-field-label').textContent=label+' を選択';
+  else { const n=new Date(); calYear=n.getFullYear(); calMonth=n.getMonth(); }
+  document.getElementById('cal-field-label').textContent = label + ' を選択';
   document.getElementById('cal-modal').classList.add('active');
   renderCal();
 }
 function closeCal(e) {
-  if (!e||e.target===document.getElementById('cal-modal')) document.getElementById('cal-modal').classList.remove('active');
+  if (!e || e.target===document.getElementById('cal-modal')) document.getElementById('cal-modal').classList.remove('active');
 }
 function calNav(dir) {
-  calMonth+=dir;
-  if(calMonth<0){calMonth=11;calYear--;} if(calMonth>11){calMonth=0;calYear++;}
+  calMonth += dir;
+  if (calMonth<0){calMonth=11;calYear--;} if (calMonth>11){calMonth=0;calYear++;}
   renderCal();
 }
 function renderCal() {
   const months=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
-  document.getElementById('cal-month-year').textContent=calYear+'年'+months[calMonth];
-  const grid=document.getElementById('cal-days'); grid.innerHTML='';
-  const today=new Date();
-  const first=new Date(calYear,calMonth,1).getDay();
-  const dim=new Date(calYear,calMonth+1,0).getDate();
-  const prev=new Date(calYear,calMonth,0).getDate();
-  const sel=calSelectedDate[calTarget];
-  for(let i=first-1;i>=0;i--){const d=document.createElement('div');d.className='cal-day other-month';d.textContent=prev-i;grid.appendChild(d);}
-  for(let d=1;d<=dim;d++){
+  document.getElementById('cal-month-year').textContent = calYear+'年'+months[calMonth];
+  const grid = document.getElementById('cal-days'); grid.innerHTML = '';
+  const today = new Date();
+  const first = new Date(calYear,calMonth,1).getDay();
+  const dim   = new Date(calYear,calMonth+1,0).getDate();
+  const prev  = new Date(calYear,calMonth,0).getDate();
+  const sel   = calSelectedDate[calTarget];
+  for (let i=first-1;i>=0;i--) { const d=document.createElement('div');d.className='cal-day other-month';d.textContent=prev-i;grid.appendChild(d); }
+  for (let d=1;d<=dim;d++) {
     const el=document.createElement('div'); el.className='cal-day';
     const dow=new Date(calYear,calMonth,d).getDay();
     if(dow===0)el.classList.add('sunday'); if(dow===6)el.classList.add('saturday');
@@ -748,119 +929,161 @@ function renderCal() {
   }
 }
 function selectDate(d) {
-  const ds=calYear+'-'+String(calMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-  calSelectedDate[calTarget]=ds;
-  const disp=calYear+'年'+(calMonth+1)+'月'+d+'日';
-  const dispEl=document.getElementById(calTarget+'-disp');
-  if(dispEl){dispEl.textContent=disp;dispEl.classList.remove('empty');}
-  const hidden=document.getElementById(calTarget);
-  if(hidden)hidden.value=ds;
+  const ds = calYear+'-'+String(calMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+  calSelectedDate[calTarget] = ds;
+  const disp = calYear+'年'+(calMonth+1)+'月'+d+'日';
+
+  if (calTarget === 'accept-date') {
+    document.getElementById('accept-date-disp').textContent = disp;
+    document.getElementById('accept-date').value = ds;
+  } else if (calTarget === 'delivery-date') {
+    const valEl = document.getElementById('delivery-date-disp');
+    valEl.textContent = disp; valEl.classList.remove('empty');
+    document.getElementById('delivery-date').value = ds;
+  }
   document.getElementById('cal-modal').classList.remove('active');
 }
 
-// HELPERS
-function g(id){const el=document.getElementById(id);return el?(el.value||el.textContent||'').trim():'';}
-function rv(name){const el=document.querySelector(`input[name="${name}"]:checked`);return el?el.value:'';}
-
-// COLLECT
-function collectData(){
+// ===== COLLECT DATA =====
+function collectData() {
   return {
-    orderNo:g('order-no-disp'), acceptDate:g('accept-date-disp'),
-    acceptType:rv('accept-type'), deliveryType:rv('delivery-type'),
-    deliveryDate:g('delivery-date-disp'), timeAmpm:g('time-ampm'), timeHour:g('time-hour'),
-    orderName:g('order-name'), orderTel:g('order-tel'), orderAddr:g('order-addr'),
-    destName:g('dest-name'), destTel:g('dest-tel'), destAddr:g('dest-addr'), destNote:g('dest-note'),
-    itemName:g('item-name'), itemDetail:g('item-detail'), purpose:g('purpose'),
-    qty:g('qty'), price:g('price'), subtotal:g('subtotal'), deliveryFee:g('delivery-fee'),
-    payStatus:rv('pay-status'),
-    colorImage:g('color-image'), flowerMaterial:g('flower-material'),
-    prefecture:g('prefecture'), shipName:g('ship-name'), shipNote:g('ship-note'),
-    cardType:rv('card-type'), msgText:g('msg-text'),
-    notes:g('notes'), savedAt:new Date().toLocaleString('ja-JP')
+    orderNo: gd('order-no-disp'), acceptDate: gd('accept-date-disp'),
+    deliveryType: rv('delivery-type'), deliveryDate: gd('delivery-date-disp'),
+    timeAmpm: g('time-ampm'), timeHour: g('time-hour'),
+    orderName: g('order-name'), orderTel: g('order-tel'), orderAddr: g('order-addr'),
+    destName: g('dest-name'), destTel: g('dest-tel'), destAddr: g('dest-addr'), destNote: g('dest-note'),
+    items: items,
+    purpose: g('purpose'),
+    taxMode: rv('tax-mode'),
+    deliveryFee: g('delivery-fee'),
+    payStatus: rv('pay-status'),
+    colorImage: g('color-image'), flowerMaterial: g('flower-material'),
+    prefecture: g('prefecture'), shipName: g('ship-name'), shipNote: g('ship-note'),
+    cardType: rv('card-type'), msgText: g('msg-text'),
+    notes: g('notes'), savedAt: new Date().toLocaleString('ja-JP')
   };
 }
 
-// SAVE
-function saveToDrive(){
-  const data=collectData();
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url; a.download='注文伝票_'+data.orderNo+'_'+data.acceptDate.replace(/[年月日]/g,'')+'.json';
-  a.click(); URL.revokeObjectURL(url);
+// ===== SAVE =====
+function saveToDrive() {
+  const data = collectData();
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href=url; a.download='注文伝票_'+data.orderNo+'.json'; a.click(); URL.revokeObjectURL(url);
   document.getElementById('status-info').textContent='保存済み: '+data.savedAt;
   showToast('✅ 伝票を保存しました');
 }
-function sendToDrive(){showToast('☁️ Google Driveへの転送はAPI連携が必要です');}
+function sendToDrive() { showToast('☁️ Google Driveへの転送はAPI連携が必要です'); }
 
-// NEW ORDER
-function newOrder(){
-  if(!confirm('新しい注文伝票を作成しますか？\n現在の内容は消去されます。'))return;
+// ===== NEW ORDER =====
+function newOrder() {
+  if (!confirm('新しい注文伝票を作成しますか？\n現在の内容は消去されます。')) return;
   orderCount++; localStorage.setItem('flower_order_count',orderCount); updateOrderNo();
-  document.querySelectorAll('input[type=text],input[type=tel],input[type=number],textarea').forEach(el=>el.value='');
-  document.querySelectorAll('select').forEach(el=>el.selectedIndex=0);
-  document.querySelectorAll('.date-display').forEach(el=>{
-    if(el.id==='accept-date-disp')return;
-    el.textContent='日付選択'; el.classList.add('empty');
-  });
+  items = []; renderItems();
   document.querySelectorAll('input[type=hidden]').forEach(el=>el.value='');
-  document.getElementById('at-visit').checked=true;
+  document.querySelectorAll('select').forEach(el=>el.selectedIndex=0);
+  const dispMap = {
+    'disp-order-name':'お名前を入力','disp-order-tel':'電話番号を入力','disp-order-addr':'住所を入力',
+    'disp-dest-name':'お名前を入力','disp-dest-tel':'電話番号を入力','disp-dest-addr':'住所を入力','disp-dest-note':'備考を入力',
+    'disp-flower-material':'タップして入力','disp-delivery-fee-in':'金額を入力',
+    'disp-ship-name':'お名前を入力','disp-ship-note':'タップして入力',
+    'disp-msg-text':'タップして入力','disp-notes':'タップして入力'
+  };
+  Object.entries(dispMap).forEach(([id,ph])=>{const el=document.getElementById(id);if(el){el.textContent=ph;el.classList.add('empty');}});
+  const ddv = document.getElementById('delivery-date-disp');
+  ddv.textContent='日付を選択してください'; ddv.classList.add('empty');
   document.getElementById('dt-visit').checked=true;
   document.getElementById('card-none').checked=true;
-  document.getElementById('delivery-fee').value='0';
-  document.getElementById('qty').value='1';
+  document.getElementById('tax-excl').checked=true;
   calSelectedDate={}; calcTotal(); toggleDelivery(); initAcceptDate();
   document.getElementById('status-info').textContent='新規作成';
   showToast('✨ 新規伝票を作成しました');
 }
 
-// PRINT PREVIEW
-function openPrintPreview(){
-  const d=collectData();
-  const delivType=rv('delivery-type');
-  const dateLabel=delivType==='配達'?'お届け日':delivType==='宅配'?'発送日':'来店日';
-  const time=[d.timeAmpm,d.timeHour].filter(Boolean).join(' ');
-  const sub=parseFloat(document.getElementById('subtotal').value)||0;
-  const dlv=parseFloat(document.getElementById('delivery-fee').value)||0;
-  const tax=Math.floor((sub+dlv)*0.1);
-  const total=sub+dlv+tax;
-  const fmt=n=>'¥'+n.toLocaleString();
+// ===== PRINT PREVIEW =====
+function openPrintPreview() {
+  const d = collectData();
+  const delivType = rv('delivery-type');
+  const dateLabel = delivType==='配達'?'お届け日':delivType==='宅配'?'発送日':'来店日';
+  const time = [d.timeAmpm, d.timeHour].filter(Boolean).join(' ');
+  const taxMode = d.taxMode;
+  const dlv  = parseFloat(d.deliveryFee)||0;
+  let itemsSub=0; items.forEach(it=>itemsSub+=(it.price||0)*(it.qty||1));
+  let tax, total;
+  if (taxMode==='excl') { tax=Math.floor((itemsSub+dlv)*0.1); total=itemsSub+dlv+tax; }
+  else { tax=Math.floor((itemsSub+dlv)*10/110); total=itemsSub+dlv; }
+  const fmt = n=>'¥'+n.toLocaleString();
+  const showDest = delivType==='配達'||delivType==='宅配';
+
   function row(label,val){
-    if(!val||val==='日付選択')return'';
+    if(!val||val==='日付を選択してください'||val==='—')return'';
     return`<tr><td style="padding:4px 8px 4px 0;color:#6b7280;font-size:11px;white-space:nowrap;vertical-align:top;width:85px;">${label}</td><td style="padding:4px 0;color:#2c2c2a;font-size:12px;">${val}</td></tr>`;
   }
   function sec(title,rows){
     const c=rows.join('');if(!c)return'';
-    return`<div style="margin-bottom:10px;"><div style="font-size:10px;font-weight:700;color:#5a7a5a;letter-spacing:0.07em;border-bottom:2px solid #5a7a5a;padding-bottom:2px;margin-bottom:5px;">${title}</div><table style="width:100%;border-collapse:collapse;">${c}</table></div>`;
+    return`<div style="margin-bottom:10px;"><div style="font-size:10px;font-weight:700;color:#5a7a5a;border-bottom:2px solid #5a7a5a;padding-bottom:2px;margin-bottom:5px;">${title}</div><table style="width:100%;border-collapse:collapse;">${c}</table></div>`;
   }
-  const showDest=delivType==='配達'||delivType==='宅配';
-  const html=`
+
+  // 品目テーブル
+  let itemsHTML = '';
+  if (items.length > 0) {
+    itemsHTML = `<div style="margin-bottom:10px;">
+      <div style="font-size:10px;font-weight:700;color:#5a7a5a;border-bottom:2px solid #5a7a5a;padding-bottom:2px;margin-bottom:5px;">💐 ご注文品</div>
+      ${d.purpose?`<div style="font-size:11px;color:#6b7280;margin-bottom:6px;">用途：<strong>${d.purpose}</strong></div>`:''}
+      <table style="width:100%;border-collapse:collapse;font-size:12px;">
+        <thead><tr style="border-bottom:1px solid #e8e8e6;">
+          <th style="text-align:left;padding:3px 4px;color:#6b7280;font-weight:600;font-size:10px;">品名</th>
+          <th style="text-align:center;padding:3px 4px;color:#6b7280;font-weight:600;font-size:10px;width:40px;">数量</th>
+          <th style="text-align:right;padding:3px 4px;color:#6b7280;font-weight:600;font-size:10px;width:80px;">単価</th>
+          <th style="text-align:right;padding:3px 4px;color:#6b7280;font-weight:600;font-size:10px;width:80px;">小計</th>
+        </tr></thead>
+        <tbody>
+          ${items.map(it=>`<tr style="border-bottom:1px solid #f0f0ee;">
+            <td style="padding:5px 4px;font-weight:600;">${it.name||''}${it.detail?`<span style="font-weight:400;color:#888;"> ${it.detail}</span>`:''}</td>
+            <td style="padding:5px 4px;text-align:center;">${it.qty||1}</td>
+            <td style="padding:5px 4px;text-align:right;">${it.price?fmt(it.price):'-'}</td>
+            <td style="padding:5px 4px;text-align:right;font-weight:600;">${it.price?fmt(it.price*(it.qty||1)):'-'}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`;
+  }
+
+  const html = `
   <div style="background:white;border-radius:10px;padding:20px 24px;font-family:'Noto Sans JP',sans-serif;color:#2c2c2a;box-shadow:0 2px 12px rgba(0,0,0,0.08);max-width:640px;margin:0 auto;">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid #5a7a5a;">
       <div>
-        <div style="font-family:'Shippori Mincho',serif;font-size:20px;color:#5a7a5a;font-weight:600;letter-spacing:0.1em;">🌸 ご注文伝票</div>
+        <div style="font-family:'Shippori Mincho',serif;font-size:20px;color:#5a7a5a;font-weight:600;">🌸 ご注文伝票</div>
         <div style="font-size:11px;color:#888;margin-top:2px;">お花屋さん</div>
       </div>
       <div style="text-align:right;">
         <div style="font-size:10px;color:#888;">注文番号</div>
-        <div style="font-family:'Shippori Mincho',serif;font-size:22px;color:#5a7a5a;font-weight:700;letter-spacing:0.12em;">No. ${d.orderNo}</div>
-        <div style="font-size:11px;color:#888;margin-top:1px;">受付日：${d.acceptDate}</div>
+        <div style="font-family:'Shippori Mincho',serif;font-size:22px;color:#5a7a5a;font-weight:700;">No. ${d.orderNo}</div>
+        <div style="font-size:11px;color:#888;">受付日：${d.acceptDate}</div>
       </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
       <div>
-        ${sec('📋 受付情報',[row('受付方法',d.acceptType),row('お渡し方法',delivType),row(dateLabel,d.deliveryDate!=='日付選択'?d.deliveryDate:''),row('時間',time)])}
-        ${sec('👤 ご注文主',[row('お名前','<strong>'+d.orderName+'</strong>'),row('電話番号',d.orderTel),row('ご住所',d.orderAddr)])}
-        ${showDest?sec('📍 お届け先',[row('お名前',d.destName),row('電話番号',d.destTel),row('ご住所',d.destAddr),row('備考',d.destNote)]):''}
+        ${sec('📋 受付情報',[row('お渡し方法',delivType),row(dateLabel,d.deliveryDate),row('時間',time)])}
+        ${sec('👤 ご注文主',[row('お名前','<strong style="font-size:14px;">'+d.orderName+'</strong>'),row('電話番号',d.orderTel),row('ご住所',d.orderAddr)])}
+        ${showDest?sec('📍 お届け先',[row('お名前','<strong>'+d.destName+'</strong>'),row('電話番号',d.destTel),row('ご住所',d.destAddr),row('備考',d.destNote)]):''}
         ${delivType==='宅配'?sec('📦 宅配情報',[row('都道府県',d.prefecture),row('お名前',d.shipName),row('備考',d.shipNote)]):''}
+        ${d.cardType==='あり'?sec('✉️ メッセージカード',[row('カード','あり'),row('メッセージ',(d.msgText||'').replace(/\n/g,'<br>'))]):''}
       </div>
       <div>
-        ${sec('💐 ご注文品',[row('品名','<strong>'+[d.itemName,d.itemDetail].filter(Boolean).join('　')+'</strong>'),row('用途',d.purpose),row('数量',d.qty?d.qty+'個':'')])}
+        ${itemsHTML}
         ${sec('🎨 イメージ・花材',[row('カラー',d.colorImage),row('花材希望',(d.flowerMaterial||'').replace(/\n/g,'<br>'))])}
-        ${d.cardType==='あり'?sec('✉️ メッセージカード',[row('カード','あり'),row('メッセージ',(d.msgText||'').replace(/\n/g,'<br>'))]):''}
-        ${sec('💴 お会計',[row('商品代金',sub?fmt(sub):''),row('配達料',dlv?fmt(dlv):''),row('消費税(10%)',tax?fmt(tax):'')])}
-        ${total?`<div style="background:#f2f7ee;border:1px solid #c8d8c0;border-radius:8px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><span style="font-size:12px;color:#5a7a5a;font-weight:600;">合計金額（税込）</span><span style="font-size:20px;font-weight:700;color:#5a7a5a;font-family:'Shippori Mincho',serif;">${fmt(total)}</span></div>`:''}
-        ${d.payStatus?`<div style="font-size:11px;color:#6b7280;">お支払い：<strong style="color:#2c2c2a;">${d.payStatus}</strong></div>`:''}
+        <div style="background:#f2f7ee;border:1.5px solid #c8d8c0;border-radius:8px;padding:10px 12px;margin-bottom:8px;">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#6b7280;margin-bottom:3px;"><span>商品小計</span><span>${fmt(itemsSub)}</span></div>
+          ${dlv?`<div style="display:flex;justify-content:space-between;font-size:11px;color:#6b7280;margin-bottom:3px;"><span>配達料</span><span>${fmt(dlv)}</span></div>`:''}
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#6b7280;margin-bottom:6px;"><span>消費税${taxMode==='incl'?' (内税)':''}</span><span>${fmt(tax)}</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #c8d8c0;padding-top:6px;">
+            <span style="font-size:13px;color:#5a7a5a;font-weight:700;">合計金額（税込）</span>
+            <span style="font-size:24px;font-weight:700;color:#5a7a5a;font-family:'Shippori Mincho',serif;">${fmt(total)}</span>
+          </div>
+        </div>
+        ${d.payStatus?`<div style="font-size:12px;color:#6b7280;margin-bottom:6px;">お支払い：<strong style="color:#2c2c2a;">${d.payStatus}</strong></div>`:''}
       </div>
     </div>
     ${d.notes?`<div style="margin-top:10px;background:#fafaf8;border:1px solid #e0e0db;border-radius:8px;padding:8px 12px;"><div style="font-size:10px;font-weight:700;color:#6b7280;margin-bottom:3px;">📝 備考</div><div style="font-size:11px;line-height:1.7;white-space:pre-wrap;">${d.notes}</div></div>`:''}
@@ -869,16 +1092,17 @@ function openPrintPreview(){
       <span>ありがとうございました 🌸</span>
     </div>
   </div>`;
-  document.getElementById('print-slip').innerHTML=html;
+
+  document.getElementById('print-slip').innerHTML = html;
   document.getElementById('print-modal').classList.add('active');
 }
-function closePrintPreview(e){
-  if(!e||e.target===document.getElementById('print-modal')) document.getElementById('print-modal').classList.remove('active');
+function closePrintPreview(e) {
+  if (!e||e.target===document.getElementById('print-modal')) document.getElementById('print-modal').classList.remove('active');
 }
-function doPrint(){
-  const slip=document.getElementById('print-slip').innerHTML;
-  const no=g('order-no-disp');
-  const win=window.open('','_blank','width=720,height=900');
+function doPrint() {
+  const slip = document.getElementById('print-slip').innerHTML;
+  const no = gd('order-no-disp');
+  const win = window.open('','_blank','width=720,height=900');
   win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>注文伝票 No.${no}</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Shippori+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
     <style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#f0f0ec;font-family:'Noto Sans JP',sans-serif;padding:20px;}@media print{body{background:white;padding:0;}@page{margin:12mm;size:A4;}}</style>
@@ -886,27 +1110,26 @@ function doPrint(){
   win.document.close(); win.focus(); setTimeout(()=>win.print(),600);
 }
 
-// TOAST
-function showToast(msg){
-  const t=document.getElementById('toast');
+// ===== TOAST =====
+function showToast(msg) {
+  const t = document.getElementById('toast');
   t.textContent=msg; t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2500);
 }
 
-// INIT ACCEPT DATE
-function initAcceptDate(){
-  const now=new Date();
-  const y=now.getFullYear(),m=now.getMonth(),d=now.getDate();
-  const ds=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-  const disp=y+'年'+(m+1)+'月'+d+'日';
-  document.getElementById('accept-date-disp').textContent=disp;
-  document.getElementById('accept-date-disp').classList.remove('empty');
-  document.getElementById('accept-date').value=ds;
-  calSelectedDate['accept-date']=ds;
+// ===== INIT ACCEPT DATE =====
+function initAcceptDate() {
+  const now = new Date();
+  const y=now.getFullYear(), m=now.getMonth(), d=now.getDate();
+  const ds = y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+  const disp = y+'年'+(m+1)+'月'+d+'日';
+  document.getElementById('accept-date-disp').textContent = disp;
+  document.getElementById('accept-date').value = ds;
+  calSelectedDate['accept-date'] = ds;
 }
 
-// INIT
-toggleDelivery(); calcTotal(); initAcceptDate();
+// ===== INIT =====
+toggleDelivery(); calcTotal(); initAcceptDate(); renderItems();
 </script>
 </body>
 </html>
