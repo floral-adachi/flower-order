@@ -1332,7 +1332,7 @@ function doDeliveryPrint() {
   const dateTimeStr = [d.deliveryDate, time].filter(v=>v&&v!=='日付を選択してください').join(' ');
   const now = new Date().toLocaleString('ja-JP');
 
-  const html = `<div class="page" style="justify-content:space-between;">
+  const html = `<div class="page" style="justify-content:space-between;width:210mm;height:297mm;padding:10mm 12mm;">
     <!-- ヘッダー（小さいままでOK） -->
     <div style="display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:7px;border-bottom:3px solid #2a4a2a;margin-bottom:10px;flex-shrink:0;">
       <div>
@@ -1415,7 +1415,7 @@ function doDeliveryPrint() {
   </div>`;
 
   const no = gd('order-no-disp');
-  printWindow(`<div class="sheet" style="justify-content:center;">${html}</div>`, `配達票 No.${no}`, 'a5');
+  printWindow(`<div class="sheet">${html}</div>`, `配達票 No.${no}`, 'a4x2');
 }
 
 // ===== TOAST =====
