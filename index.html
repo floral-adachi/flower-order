@@ -1263,13 +1263,8 @@ function openPrintPreview() {
   </div>`;
 
   document.getElementById('print-slip').innerHTML = `
-    <div style="font-size:11px;color:#666;text-align:center;padding:6px 0 3px;">プレビュー（A4横・左右2面） ※印刷はA4横向きで</div>
-    <div style="transform:scale(0.48);transform-origin:top left;width:297mm;height:210mm;">
-      <div class="sheet" style="width:297mm;height:210mm;display:flex;flex-direction:row;background:white;">
-        ${page1}${page2}
-      </div>
-    </div>
-    <div style="height:100px;"></div>`;
+    <div style="font-size:11px;color:#666;text-align:center;padding:6px 0 3px;">プレビュー（A5縦・2枚） ※印刷はA5縦向きで</div>
+    ${page1}${page2}`;
   document.getElementById('print-modal').classList.add('active');
 }
 
@@ -1324,7 +1319,7 @@ function doPrint() {
       <div style="margin-top:4px;font-size:9px;color:#444;text-align:center;">お花のご用命はお気軽にお申し付けください</div>
     </div>
   </div>`;
-  printWindow(`<div class="sheet">${p1}${p2}</div>`, `注文伝票 No.${no}`, 'a4x2');
+  printWindow(`${p1}${p2}`, `注文伝票 No.${no}`, 'a5');
 }
 
 // ===== 配達票印刷（A5） =====
@@ -1420,7 +1415,7 @@ function doDeliveryPrint() {
   </div>`;
 
   const no = gd('order-no-disp');
-  printWindow(`<div class="sheet">${html}</div>`, `配達票 No.${no}`, 'a4x2');
+  printWindow(`${html}`, `配達票 No.${no}`, 'a5');
 }
 
 // ===== TOAST =====
