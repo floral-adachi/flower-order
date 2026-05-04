@@ -1033,14 +1033,43 @@ function withSama(name) {
   return name + '　様';
 }
 
-function printWindow(html, title) {
-  const win = window.open('','_blank','width=700,height=1000');
+function printWindow(html, title, layout) {
+  // layout: 'a5' = A5縦1枚ずつ, 'a4x2' = A4横に2面並べ（デフォルト）
+  const isA4x2 = layout !== 'a5';
+  const win = window.open('','_blank','width=900,height=700');
   win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${title}</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Shippori+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
       *{margin:0;padding:0;box-sizing:border-box;}
-      html,body{width:148mm;}
-      body{background:#f0f0ec;font-family:'Noto Sans JP',sans-serif;padding:8px;}
+      body{background:#f0f0ec;font-family:'Noto Sans JP',sans-serif;padding:10px;}
+      ${isA4x2 ? `
+      /* A4横・2面並べ */
+      .sheet{
+        background:white;
+        width:297mm;height:210mm;
+        display:flex;flex-direction:row;
+        margin:0 auto 12px;
+        box-shadow:0 2px 8px rgba(0,0,0,0.15);
+        page-break-after:always;
+      }
+      .sheet:last-child{page-break-after:auto;}
+      .page{
+        width:148.5mm;height:210mm;
+        padding:6mm 7mm;
+        overflow:hidden;
+        display:flex;flex-direction:column;
+        flex-shrink:0;
+      }
+      .page:first-child{border-right:1px dashed #bbb;}
+      @media print{
+        body{background:white;padding:0;}
+        @page{margin:0;size:A4 landscape;}
+        .sheet{width:297mm;height:210mm;margin:0;box-shadow:none;}
+        .page{width:148.5mm;height:210mm;padding:6mm 7mm;}
+      }
+      ` : `
+      /* A5縦 */
+      .sheet{display:contents;}
       .page{
         background:white;width:148mm;height:210mm;
         margin:0 auto 12px;padding:6.5mm 8mm;
@@ -1050,17 +1079,16 @@ function printWindow(html, title) {
       }
       .page:last-child{page-break-after:auto;}
       @media print{
-        html,body{width:148mm;background:white;padding:0;}
+        body{background:white;padding:0;}
         @page{margin:0;size:A5 portrait;}
         .page{width:148mm;height:210mm;padding:6.5mm 8mm;margin:0;box-shadow:none;}
       }
+      `}
       .sec-title{font-size:9.5px;font-weight:700;color:#2a4a2a;border-bottom:2px solid #2a4a2a;padding-bottom:2px;margin-bottom:4px;}
       .sec{margin-bottom:7px;}
       .row{display:flex;gap:0;margin-bottom:2px;}
       .row-lbl{font-size:9px;color:#333;font-weight:600;width:52px;flex-shrink:0;padding-top:1px;}
       .row-val{font-size:11px;color:#111;font-weight:500;flex:1;line-height:1.4;}
-      .row-val.bold{font-weight:700;}
-      .row-val.lg{font-size:13px;font-weight:700;}
     </style>
   </head><body>${html}</body></html>`);
   win.document.close(); win.focus(); setTimeout(()=>win.print(),800);
@@ -1235,8 +1263,8 @@ function openPrintPreview() {
   </div>`;
 
   document.getElementById('print-slip').innerHTML = `
-    <div style="font-size:11px;color:#666;text-align:center;padding:6px 0 3px;">プレビュー（A5・2ページ）</div>
-    ${page1}${page2}`;
+    <div style="font-size:11px;color:#666;text-align:center;padding:6px 0 3px;">プレビュー（A4横・2面）</div>
+    <div class="sheet">${page1}${page2}</div>`;
   document.getElementById('print-modal').classList.add('active');
 }
 
@@ -1245,9 +1273,53 @@ function closePrintPreview(e) {
 }
 
 function doPrint() {
-  const slip = document.getElementById('print-slip').innerHTML;
   const no = gd('order-no-disp');
-  printWindow(slip, `注文伝票 No.${no}`);
+  const {d,delivType,dateLabel,time,dlv,itemsSub,tax,total,fmt,itemNames} = getCalcData();
+  const dateTimeStr = [d.deliveryDate, time].filter(v=>v&&v!=="日付を選択してください").join(" ");
+  const { leftCol, rightCol, notesArea, tagArea } = makeSlipContent(d, delivType, dateTimeStr, dateLabel, dlv, itemsSub, tax, total, fmt);
+  function pageHeader(pageTitle) {
+    return `<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;padding-bottom:6px;border-bottom:3px solid #2a4a2a;flex-shrink:0;">
+      <div>
+        <div style="font-family:'Shippori Mincho',serif;font-size:15px;color:#2a4a2a;font-weight:700;">${pageTitle}</div>
+        <div style="font-size:9px;color:#222;font-weight:600;margin-top:1px;">${SHOP.name}</div>
+        <div style="font-size:8.5px;color:#222;">${SHOP.zip} ${SHOP.addr}　TEL ${SHOP.tel}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:8px;color:#444;">注文番号</div>
+        <div style="font-family:'Shippori Mincho',serif;font-size:34px;color:#2a4a2a;font-weight:700;line-height:1;">No.${d.orderNo}</div>
+        <div style="font-size:8px;color:#444;">受付日：${d.acceptDate}</div>
+      </div>
+    </div>`;
+  }
+  const p1 = `<div class="page">
+    ${pageHeader("🌸 ご注文伝票")}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;flex:1;overflow:hidden;">
+      <div style="overflow:hidden;">${leftCol}</div>
+      <div style="overflow:hidden;">${rightCol}${notesArea}</div>
+    </div>
+    ${tagArea}
+  </div>`;
+  const p2 = `<div class="page">
+    ${pageHeader("🌸 お客様控え")}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;flex:1;overflow:hidden;">
+      <div style="overflow:hidden;">${leftCol}</div>
+      <div style="overflow:hidden;">${rightCol}${notesArea}</div>
+    </div>
+    <div style="margin-top:auto;padding-top:8px;border-top:2px solid #2a4a2a;flex-shrink:0;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Shippori Mincho',serif;font-size:14px;font-weight:700;color:#2a4a2a;">🌸 ${SHOP.name}</div>
+          <div style="font-size:10px;color:#222;font-weight:600;margin-top:2px;">${SHOP.zip}　${SHOP.addr}</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:9px;color:#444;margin-bottom:1px;">お問い合わせ</div>
+          <div style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:700;color:#2a4a2a;">TEL ${SHOP.tel}</div>
+        </div>
+      </div>
+      <div style="margin-top:4px;font-size:9px;color:#444;text-align:center;">お花のご用命はお気軽にお申し付けください</div>
+    </div>
+  </div>`;
+  printWindow(`<div class="sheet">${p1}${p2}</div>`, `注文伝票 No.${no}`, 'a4x2');
 }
 
 // ===== 配達票印刷（A5） =====
@@ -1343,7 +1415,7 @@ function doDeliveryPrint() {
   </div>`;
 
   const no = gd('order-no-disp');
-  printWindow(html, `配達票 No.${no}`);
+  printWindow(`<div class="sheet" style="justify-content:center;">${html}</div>`, `配達票 No.${no}`, 'a5');
 }
 
 // ===== TOAST =====
