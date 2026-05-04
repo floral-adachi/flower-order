@@ -1043,29 +1043,29 @@ function printWindow(html, title, layout) {
       *{margin:0;padding:0;box-sizing:border-box;}
       body{background:#f0f0ec;font-family:'Noto Sans JP',sans-serif;padding:10px;}
       ${isA4x2 ? `
-      /* A4横・2面並べ */
+      /* A4縦・2面並べ（上下） */
       .sheet{
         background:white;
-        width:297mm;height:210mm;
-        display:flex;flex-direction:row;
+        width:210mm;height:297mm;
+        display:flex;flex-direction:column;
         margin:0 auto 12px;
         box-shadow:0 2px 8px rgba(0,0,0,0.15);
         page-break-after:always;
       }
       .sheet:last-child{page-break-after:auto;}
       .page{
-        width:148.5mm;height:210mm;
-        padding:6mm 7mm;
+        width:210mm;height:148.5mm;
+        padding:5mm 8mm;
         overflow:hidden;
         display:flex;flex-direction:column;
         flex-shrink:0;
       }
-      .page:first-child{border-right:1px dashed #bbb;}
+      .page:first-child{border-bottom:1px dashed #bbb;}
       @media print{
         body{background:white;padding:0;zoom:90%;}
-        @page{margin:0;size:A4 landscape;}
-        .sheet{width:297mm;height:210mm;margin:0;box-shadow:none;}
-        .page{width:148.5mm;height:210mm;padding:6mm 7mm;}
+        @page{margin:0;size:A4 portrait;}
+        .sheet{width:210mm;height:297mm;margin:0;box-shadow:none;}
+        .page{width:210mm;height:148.5mm;padding:5mm 8mm;}
       }
       ` : `
       /* A5縦 */
@@ -1263,7 +1263,7 @@ function openPrintPreview() {
   </div>`;
 
   document.getElementById('print-slip').innerHTML = `
-    <div style="font-size:11px;color:#666;text-align:center;padding:6px 0 3px;">プレビュー（A4横・2面）</div>
+    <div style="font-size:11px;color:#666;text-align:center;padding:6px 0 3px;">プレビュー（A4縦・2面）</div>
     <div class="sheet">${page1}${page2}</div>`;
   document.getElementById('print-modal').classList.add('active');
 }
