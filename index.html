@@ -978,7 +978,27 @@ function saveToDrive() {
   document.getElementById('status-info').textContent='保存済み: '+data.savedAt;
   showToast('✅ 伝票を保存しました');
 }
-function sendToDrive() { showToast('☁️ Google Driveへの転送はAPI連携が必要です'); }
+function sendToDrive() {
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwmojoXEbS0O8wFUz5QF0cROd0RFEprvpRLabK76PBdQu26YU5KVRWjU1O_2jjlWQD_Yw/exec';
+  const data = collectData();
+
+  showToast('☁️ Google Driveに転送中...');
+
+  fetch(GAS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .then(() => {
+    showToast('✅ スプレッドシートに登録しました！');
+    document.getElementById('status-info').textContent = 'Drive転送済み: ' + new Date().toLocaleString('ja-JP');
+  })
+  .catch(err => {
+    showToast('❌ 転送に失敗しました。接続を確認してください。');
+    console.error(err);
+  });
+}
 
 // ===== NEW ORDER =====
 function newOrder() {
