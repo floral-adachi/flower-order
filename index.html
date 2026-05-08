@@ -1033,35 +1033,60 @@ function withSama(name) {
   return name + '　様';
 }
 
-function printWindow(html, title) {
-  const win = window.open('','_blank','width=700,height=900');
+function printWindow(html, title, mode) {
+  // mode: 'a4x2'=A4横2面(デフォルト), 'a5'=A5縦1枚(配達票)
+  const isA5 = mode === 'a5';
+  const win = window.open('','_blank', isA5 ? 'width=700,height=900' : 'width=1000,height=700');
   win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${title}</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Shippori+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
       *{margin:0;padding:0;box-sizing:border-box;}
       body{background:#f0f0ec;font-family:'Noto Sans JP',sans-serif;padding:10px;}
-      .page{
-        background:white;
-        width:148mm;
-        height:210mm;
-        margin:0 auto 12px;
-        padding:7mm 8mm;
-        page-break-after:always;
-        overflow:hidden;
-        display:flex;
-        flex-direction:column;
-        box-shadow:0 2px 8px rgba(0,0,0,0.12);
-      }
-      .page:last-child{page-break-after:auto;}
-      @media print{
-        body{background:white;padding:0;margin:0;}
-        @page{margin:0;size:A5 portrait;}
+      ${isA5 ? `
+        /* 配達票：A5縦1枚 */
+        .sheet{ display:block; }
         .page{
-          width:148mm;height:210mm;
+          background:white;
+          width:148mm; height:210mm;
+          margin:0 auto 12px;
           padding:7mm 8mm;
-          margin:0;box-shadow:none;
+          page-break-after:always;
+          overflow:hidden;
+          display:flex; flex-direction:column;
+          box-shadow:0 2px 8px rgba(0,0,0,0.12);
         }
-      }
+        .page:last-child{ page-break-after:auto; }
+        @media print{
+          body{ background:white; padding:0; margin:0; }
+          @page{ margin:0; size:A5 portrait; }
+          .page{ width:148mm; height:210mm; padding:7mm 8mm; margin:0; box-shadow:none; }
+        }
+      ` : `
+        /* 通常印刷：A4横・左右2面 */
+        .sheet{
+          background:white;
+          width:297mm; height:210mm;
+          display:flex; flex-direction:row;
+          margin:0 auto 12px;
+          box-shadow:0 2px 8px rgba(0,0,0,0.15);
+          page-break-after:always;
+        }
+        .sheet:last-child{ page-break-after:auto; }
+        .page{
+          width:148.5mm; height:210mm;
+          padding:6mm 7mm;
+          overflow:hidden;
+          display:flex; flex-direction:column;
+          flex-shrink:0;
+        }
+        .page:first-child{ border-right:1.5px dashed #aaa; }
+        @media print{
+          body{ background:white; padding:0; margin:0; }
+          @page{ margin:0; size:A4 landscape; }
+          .sheet{ width:297mm; height:210mm; margin:0; box-shadow:none; }
+          .page{ width:148.5mm; height:210mm; padding:6mm 7mm; }
+        }
+      `}
     </style>
   </head><body>${html}</body></html>`);
   win.document.close(); win.focus(); setTimeout(()=>win.print(),800);
@@ -1236,8 +1261,13 @@ function openPrintPreview() {
   </div>`;
 
   document.getElementById('print-slip').innerHTML = `
-    <div style="font-size:11px;color:#666;text-align:center;padding:6px 0 6px;">📄 プレビュー（A5縦・2枚）</div>
-    ${page1}${page2}`;
+    <div style="font-size:11px;color:#666;text-align:center;padding:6px 0 6px;">📄 プレビュー（A4横・左右2面 ／ 切り離してA5×2枚）</div>
+    <div style="overflow-x:auto;">
+      <div style="display:flex;flex-direction:row;background:white;width:740px;min-height:520px;box-shadow:0 2px 8px rgba(0,0,0,0.12);margin:0 auto;">
+        <div style="width:370px;min-height:520px;padding:12px;overflow:hidden;flex-shrink:0;border-right:1.5px dashed #aaa;">${page1.replace(/<div class="page"[^>]*>/,'<div>').replace(/<\/div>\s*$/, '</div>')}</div>
+        <div style="width:370px;min-height:520px;padding:12px;overflow:hidden;flex-shrink:0;">${page2.replace(/<div class="page"[^>]*>/,'<div>').replace(/<\/div>\s*$/, '</div>')}</div>
+      </div>
+    </div>`;
   document.getElementById('print-modal').classList.add('active');
 }
 
@@ -1292,7 +1322,7 @@ function doPrint() {
       <div style="margin-top:4px;font-size:9px;color:#444;text-align:center;">お花のご用命はお気軽にお申し付けください</div>
     </div>
   </div>`;
-  printWindow(`${p1}${p2}`, `注文伝票 No.${no}`);
+  printWindow(`<div class='sheet'>${p1}${p2}</div>`, `注文伝票 No.${no}`, 'a4x2');
 }
 
 // ===== 配達票印刷（A5） =====
@@ -1388,7 +1418,7 @@ function doDeliveryPrint() {
   </div>`;
 
   const no = gd('order-no-disp');
-  printWindow(`${html}`, `配達票 No.${no}`);
+  printWindow(`${html}`, `配達票 No.${no}`, 'a5');
 }
 
 // ===== TOAST =====
