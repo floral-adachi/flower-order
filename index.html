@@ -315,7 +315,6 @@
   </div>
   <div class="header-actions">
     <button class="btn btn-new" onclick="newOrder()">＋ 新規</button>
-    <button class="btn btn-save" onclick="saveToDrive()">💾 保存</button>
     <button class="btn btn-drive" onclick="sendToDrive()">☁ Drive</button>
     <button class="btn btn-print" onclick="openPrintPreview()">🖨 印刷プレビュー</button>
   </div>
@@ -969,15 +968,7 @@ function collectData() {
 }
 
 // ===== SAVE =====
-function saveToDrive() {
-  const data = collectData();
-  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href=url; a.download='注文伝票_'+data.orderNo+'.json'; a.click(); URL.revokeObjectURL(url);
-  document.getElementById('status-info').textContent='保存済み: '+data.savedAt;
-  showToast('✅ 伝票を保存しました');
-}
+
 function sendToDrive() {
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbwmojoXEbS0O8wFUz5QF0cROd0RFEprvpRLabK76PBdQu26YU5KVRWjU1O_2jjlWQD_Yw/exec';
   const data = collectData();
