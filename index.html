@@ -1033,60 +1033,41 @@ function withSama(name) {
   return name + '　様';
 }
 
-function printWindow(html, title, mode) {
-  // mode: 'a4x2'=A4横2面(デフォルト), 'a5'=A5縦1枚(配達票)
-  const isA5 = mode === 'a5';
-  const win = window.open('','_blank', isA5 ? 'width=700,height=900' : 'width=1000,height=700');
+function printWindow(html, title) {
+  const win = window.open('','_blank','width=1000,height=700');
   win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${title}</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Shippori+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
       *{margin:0;padding:0;box-sizing:border-box;}
       body{background:#f0f0ec;font-family:'Noto Sans JP',sans-serif;padding:10px;}
-      ${isA5 ? `
-        /* 配達票：A5縦1枚 */
-        .sheet{ display:block; }
-        .page{
-          background:white;
-          width:148mm; height:210mm;
-          margin:0 auto 12px;
-          padding:7mm 8mm;
-          page-break-after:always;
-          overflow:hidden;
-          display:flex; flex-direction:column;
-          box-shadow:0 2px 8px rgba(0,0,0,0.12);
-        }
-        .page:last-child{ page-break-after:auto; }
-        @media print{
-          body{ background:white; padding:0; margin:0; }
-          @page{ margin:0; size:A5 portrait; }
-          .page{ width:148mm; height:210mm; padding:7mm 8mm; margin:0; box-shadow:none; }
-        }
-      ` : `
-        /* 通常印刷：A4横・左右2面 */
-        .sheet{
-          background:white;
-          width:297mm; height:210mm;
-          display:flex; flex-direction:row;
-          margin:0 auto 12px;
-          box-shadow:0 2px 8px rgba(0,0,0,0.15);
-          page-break-after:always;
-        }
-        .sheet:last-child{ page-break-after:auto; }
-        .page{
-          width:148.5mm; height:210mm;
-          padding:6mm 7mm;
-          overflow:hidden;
-          display:flex; flex-direction:column;
-          flex-shrink:0;
-        }
-        .page:first-child{ border-right:1.5px dashed #aaa; }
-        @media print{
-          body{ background:white; padding:0; margin:0; }
-          @page{ margin:0; size:A4 landscape; }
-          .sheet{ width:297mm; height:210mm; margin:0; box-shadow:none; }
-          .page{ width:148.5mm; height:210mm; padding:6mm 7mm; }
-        }
-      `}
+      .sheet{
+        background:white;
+        width:297mm; height:210mm;
+        display:flex; flex-direction:row;
+        margin:0 auto 12px;
+        box-shadow:0 2px 8px rgba(0,0,0,0.15);
+        page-break-after:always;
+      }
+      .sheet:last-child{ page-break-after:auto; }
+      .page{
+        width:148.5mm; height:210mm;
+        padding:6mm 7mm;
+        overflow:hidden;
+        display:flex; flex-direction:column;
+        flex-shrink:0;
+      }
+      .page:first-child{ border-right:1.5px dashed #aaa; }
+      .page-blank{
+        width:148.5mm; height:210mm;
+        flex-shrink:0;
+      }
+      @media print{
+        body{ background:white; padding:0; margin:0; }
+        @page{ margin:0; size:A4 landscape; }
+        .sheet{ width:297mm; height:210mm; margin:0; box-shadow:none; zoom:90%; }
+        .page{ width:148.5mm; height:210mm; padding:6mm 7mm; }
+        .page-blank{ width:148.5mm; height:210mm; }
+      }
     </style>
   </head><body>${html}</body></html>`);
   win.document.close(); win.focus(); setTimeout(()=>win.print(),800);
@@ -1322,7 +1303,7 @@ function doPrint() {
       <div style="margin-top:4px;font-size:9px;color:#444;text-align:center;">お花のご用命はお気軽にお申し付けください</div>
     </div>
   </div>`;
-  printWindow(`<div class='sheet'>${p1}${p2}</div>`, `注文伝票 No.${no}`, 'a4x2');
+  printWindow(`<div class='sheet'>${p1}${p2}</div>`, `注文伝票 No.${no}`);
 }
 
 // ===== 配達票印刷（A5） =====
@@ -1335,7 +1316,7 @@ function doDeliveryPrint() {
   const dateTimeStr = [d.deliveryDate, time].filter(v=>v&&v!=='日付を選択してください').join(' ');
   const now = new Date().toLocaleString('ja-JP');
 
-  const html = `<div class="page" style="justify-content:space-between;">
+  const html = `<div class="page" style="justify-content:space-between;width:148.5mm;height:210mm;padding:6mm 7mm;">
     <!-- ヘッダー（小さいままでOK） -->
     <div style="display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:7px;border-bottom:3px solid #2a4a2a;margin-bottom:10px;flex-shrink:0;">
       <div>
@@ -1418,7 +1399,7 @@ function doDeliveryPrint() {
   </div>`;
 
   const no = gd('order-no-disp');
-  printWindow(`${html}`, `配達票 No.${no}`, 'a5');
+  printWindow(`<div class='sheet'>${html}<div class='page-blank'></div></div>`, `配達票 No.${no}`);
 }
 
 // ===== TOAST =====
