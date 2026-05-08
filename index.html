@@ -43,7 +43,7 @@
     border-bottom:1px solid var(--border);
     padding:6px 14px;
     display:flex; align-items:center; justify-content:space-between;
-    box-shadow:var(--shadow); z-index:10; height:46px;
+    box-shadow:var(--shadow); z-index:500; height:46px;
   }
   .shop-title {
     font-family:'Shippori Mincho',serif; font-size:18px; color:var(--green);
@@ -53,7 +53,7 @@
     background:var(--green-pale); color:var(--green); font-size:12px;
     font-weight:700; padding:3px 11px; border-radius:20px;
   }
-  .header-actions { display:flex; gap:6px; }
+  .header-actions { display:flex; gap:6px; position:relative; z-index:500; }
   .btn {
     border:none; cursor:pointer; font-family:'Noto Sans JP',sans-serif;
     font-size:12px; font-weight:600; border-radius:var(--radius-sm);
@@ -268,8 +268,9 @@
     display:none; position:fixed; inset:0;
     background:rgba(0,0,0,0.35); z-index:300;
     align-items:center; justify-content:center;
+    pointer-events:none;
   }
-  .modal-overlay.active { display:flex; }
+  .modal-overlay.active { display:flex; pointer-events:auto; }
   .cal-modal { background:white; border-radius:16px; padding:16px; box-shadow:0 20px 60px rgba(0,0,0,0.2); width:300px; }
   .cal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
   .cal-month-year { font-family:'Shippori Mincho',serif; font-size:17px; color:var(--green); font-weight:600; }
@@ -298,8 +299,8 @@
   .toast.show { transform:translateX(-50%) translateY(0); }
 
   /* ===== PRINT MODAL ===== */
-  .print-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:250; align-items:center; justify-content:center; }
-  .print-overlay.active { display:flex; }
+  .print-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:250; align-items:center; justify-content:center; pointer-events:none; }
+  .print-overlay.active { display:flex; pointer-events:auto; }
   .print-modal-inner { background:#f0f0ec; border-radius:16px; width:min(900px,96vw); max-height:92dvh; overflow-y:auto; overflow-x:auto; box-shadow:0 24px 80px rgba(0,0,0,0.3); display:flex; flex-direction:column; }
   .print-toolbar { background:white; border-radius:16px 16px 0 0; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #ddd; position:sticky; top:0; z-index:10; }
 </style>
@@ -643,7 +644,7 @@
 </div>
 
 <!-- ===== CALENDAR MODAL ===== -->
-<div class="modal-overlay" id="cal-modal" onclick="closeCal(event)">
+<div class="modal-overlay" id="cal-modal" onclick="closeCal(event)" style="display:none;">
   <div class="cal-modal" onclick="event.stopPropagation()">
     <div class="cal-field-label" id="cal-field-label">日付を選択</div>
     <div class="cal-header">
@@ -664,7 +665,7 @@
 </div>
 
 <!-- ===== PRINT PREVIEW MODAL ===== -->
-<div class="print-overlay" id="print-modal" onclick="closePrintPreview(event)">
+<div class="print-overlay" id="print-modal" onclick="closePrintPreview(event)" style="display:none;">
   <div class="print-modal-inner" onclick="event.stopPropagation()">
     <div class="print-toolbar">
       <span style="font-family:'Shippori Mincho',serif;font-size:15px;color:#5a7a5a;font-weight:600;">🖨 印刷プレビュー</span>
@@ -900,11 +901,11 @@ function openCal(id, label) {
   if (calSelectedDate[id]) { const d=new Date(calSelectedDate[id]); calYear=d.getFullYear(); calMonth=d.getMonth(); }
   else { const n=new Date(); calYear=n.getFullYear(); calMonth=n.getMonth(); }
   document.getElementById('cal-field-label').textContent = label + ' を選択';
-  document.getElementById('cal-modal').classList.add('active');
+  const cm=document.getElementById('cal-modal'); cm.style.display='flex'; cm.classList.add('active');
   renderCal();
 }
 function closeCal(e) {
-  if (!e || e.target===document.getElementById('cal-modal')) document.getElementById('cal-modal').classList.remove('active');
+  if (!e || e.target===document.getElementById('cal-modal')) { const cm=document.getElementById('cal-modal'); cm.style.display='none'; cm.classList.remove('active'); }
 }
 function calNav(dir) {
   calMonth += dir;
@@ -944,7 +945,7 @@ function selectDate(d) {
     valEl.textContent = disp; valEl.classList.remove('empty');
     document.getElementById('delivery-date').value = ds;
   }
-  document.getElementById('cal-modal').classList.remove('active');
+  const cm2=document.getElementById('cal-modal'); cm2.style.display='none'; cm2.classList.remove('active');
 }
 
 // ===== COLLECT DATA =====
@@ -1076,7 +1077,7 @@ function printWindow(html, title) {
 }
 
 // ===== 伝票・お客様控え共通コンテンツ生成 =====
-function makeSlipContent(d, delivType, dateTimeStr, dateLabel, dlv, itemsSub, tax, total, fmt) {
+function makeSlipContent(d, delivType, dateTimeStr, dateLabel, time, dlv, itemsSub, tax, total, fmt) {
   const showDest = delivType==='配達'||delivType==='宅配';
 
   // お渡し方法バッジ
@@ -1202,7 +1203,7 @@ function makeSlipContent(d, delivType, dateTimeStr, dateLabel, dlv, itemsSub, ta
 function openPrintPreview() {
   const {d,delivType,dateLabel,time,dlv,itemsSub,tax,total,fmt,itemNames} = getCalcData();
   const dateTimeStr = [d.deliveryDate, time].filter(v=>v&&v!=='日付を選択してください').join(' ');
-  const { leftCol, rightCol, notesArea, tagArea } = makeSlipContent(d, delivType, dateTimeStr, dateLabel, dlv, itemsSub, tax, total, fmt);
+  const { leftCol, rightCol, notesArea, tagArea } = makeSlipContent(d, delivType, dateTimeStr, dateLabel, time, dlv, itemsSub, tax, total, fmt);
 
   function pageHeader(pageTitle) {
     return `<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;padding-bottom:6px;border-bottom:3px solid #2a4a2a;flex-shrink:0;">
@@ -1249,26 +1250,38 @@ function openPrintPreview() {
     </div>
   </div>`;
 
-  document.getElementById('print-slip').innerHTML = `
-    <div style="font-size:11px;color:#666;text-align:center;padding:6px 0 6px;">📄 プレビュー（A4横・左右2面 ／ 切り離してA5×2枚）</div>
-    <div style="overflow-x:auto;">
-      <div style="display:flex;flex-direction:row;background:white;width:740px;min-height:520px;box-shadow:0 2px 8px rgba(0,0,0,0.12);margin:0 auto;">
-        <div style="width:370px;min-height:520px;padding:12px;overflow:hidden;flex-shrink:0;border-right:1.5px dashed #aaa;">${page1.replace(/<div class="page"[^>]*>/,'<div>').replace(/<\/div>\s*$/, '</div>')}</div>
-        <div style="width:370px;min-height:520px;padding:12px;overflow:hidden;flex-shrink:0;">${page2.replace(/<div class="page"[^>]*>/,'<div>').replace(/<\/div>\s*$/, '</div>')}</div>
-      </div>
-    </div>`;
-  document.getElementById('print-modal').classList.add('active');
+  const slipEl = document.getElementById('print-slip');
+  slipEl.innerHTML = '';
+  const label = document.createElement('div');
+  label.style.cssText = 'font-size:11px;color:#666;text-align:center;padding:6px 0 6px;';
+  label.textContent = '📄 プレビュー（A4横・左右2面 ／ 切り離してA5×2枚）';
+  slipEl.appendChild(label);
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = 'overflow-x:auto;';
+  const row = document.createElement('div');
+  row.style.cssText = 'display:flex;flex-direction:row;background:white;width:740px;min-height:520px;box-shadow:0 2px 8px rgba(0,0,0,0.12);margin:0 auto;';
+  const col1 = document.createElement('div');
+  col1.style.cssText = 'width:370px;min-height:520px;padding:12px;overflow:hidden;flex-shrink:0;border-right:1.5px dashed #aaa;';
+  col1.innerHTML = page1;
+  const col2 = document.createElement('div');
+  col2.style.cssText = 'width:370px;min-height:520px;padding:12px;overflow:hidden;flex-shrink:0;';
+  col2.innerHTML = page2;
+  row.appendChild(col1);
+  row.appendChild(col2);
+  wrapper.appendChild(row);
+  slipEl.appendChild(wrapper);
+  const pm=document.getElementById('print-modal'); pm.style.display='flex'; pm.classList.add('active');
 }
 
 function closePrintPreview(e) {
-  if (!e||e.target===document.getElementById('print-modal')) document.getElementById('print-modal').classList.remove('active');
+  if (!e||e.target===document.getElementById('print-modal')) { const pm=document.getElementById('print-modal'); pm.style.display='none'; pm.classList.remove('active'); }
 }
 
 function doPrint() {
   const no = gd('order-no-disp');
   const {d,delivType,dateLabel,time,dlv,itemsSub,tax,total,fmt,itemNames} = getCalcData();
   const dateTimeStr = [d.deliveryDate, time].filter(v=>v&&v!=="日付を選択してください").join(" ");
-  const { leftCol, rightCol, notesArea, tagArea } = makeSlipContent(d, delivType, dateTimeStr, dateLabel, dlv, itemsSub, tax, total, fmt);
+  const { leftCol, rightCol, notesArea, tagArea } = makeSlipContent(d, delivType, dateTimeStr, dateLabel, time, dlv, itemsSub, tax, total, fmt);
   function pageHeader(pageTitle) {
     return `<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;padding-bottom:6px;border-bottom:3px solid #2a4a2a;flex-shrink:0;">
       <div>
