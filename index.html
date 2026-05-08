@@ -593,7 +593,7 @@
 </div><!-- /main -->
 
 <!-- ===== INPUT MODAL ===== -->
-<div class="input-modal-overlay" id="input-modal" onclick="closeInputModal(event)">
+<div class="input-modal-overlay" id="input-modal" onclick="closeInputModal(event)" style="display:none;">
   <div class="input-modal" onclick="event.stopPropagation()">
     <div class="input-modal-header">
       <div class="input-modal-title" id="input-modal-title">入力</div>
@@ -606,7 +606,7 @@
 </div>
 
 <!-- ===== ITEM EDIT MODAL ===== -->
-<div class="input-modal-overlay" id="item-modal" onclick="closeItemModal(event)">
+<div class="input-modal-overlay" id="item-modal" onclick="closeItemModal(event)" style="display:none;">
   <div class="input-modal" onclick="event.stopPropagation()">
     <div class="input-modal-header">
       <div class="input-modal-title">品目の入力</div>
@@ -746,7 +746,7 @@ function addItem() {
   document.getElementById('im-qty').value = '1';
   document.getElementById('im-price').value = '';
   document.getElementById('im-detail').value = '';
-  document.getElementById('item-modal').classList.add('active');
+  const itm1=document.getElementById('item-modal'); itm1.style.display='flex'; itm1.classList.add('active');
   setTimeout(()=>document.getElementById('im-price').focus(),150);
 }
 
@@ -757,7 +757,7 @@ function editItem(i) {
   document.getElementById('im-qty').value = item.qty || 1;
   document.getElementById('im-price').value = item.price || '';
   document.getElementById('im-detail').value = item.detail || '';
-  document.getElementById('item-modal').classList.add('active');
+  const itm2=document.getElementById('item-modal'); itm2.style.display='flex'; itm2.classList.add('active');
 }
 
 function commitItem() {
@@ -771,7 +771,7 @@ function commitItem() {
   } else {
     items.push(newItem);
   }
-  document.getElementById('item-modal').classList.remove('active');
+  const itm3=document.getElementById('item-modal'); itm3.style.display='none'; itm3.classList.remove('active');
   renderItems();
 }
 
@@ -782,7 +782,7 @@ function deleteItem(i) {
 
 function closeItemModal(e) {
   if (!e || e.target === document.getElementById('item-modal')) {
-    document.getElementById('item-modal').classList.remove('active');
+    const itm3=document.getElementById('item-modal'); itm3.style.display='none'; itm3.classList.remove('active');
   }
 }
 
@@ -848,7 +848,7 @@ function openInput(fieldId, title, inputType, placeholder) {
   inp.type = inputType || 'text';
   inp.placeholder = placeholder || '';
   inp.value = hv(fieldId);
-  document.getElementById('input-modal').classList.add('active');
+  const im = document.getElementById('input-modal'); im.style.display='flex'; im.classList.add('active');
   setTimeout(()=>inp.focus(), 120);
 }
 
@@ -861,12 +861,12 @@ function openTextarea(fieldId, title, placeholder) {
   inp.style.display = 'none'; ta.style.display = 'block';
   ta.placeholder = placeholder || '';
   ta.value = hv(fieldId);
-  document.getElementById('input-modal').classList.add('active');
+  const im = document.getElementById('input-modal'); im.style.display='flex'; im.classList.add('active');
   setTimeout(()=>ta.focus(), 120);
 }
 
 function commitInput() {
-  if (!currentInputId) { document.getElementById('input-modal').classList.remove('active'); return; }
+  if (!currentInputId) { const im=document.getElementById('input-modal'); im.style.display='none'; im.classList.remove('active'); return; }
   const val = currentIsTextarea
     ? document.getElementById('input-modal-textarea').value
     : document.getElementById('input-modal-field').value;
@@ -886,7 +886,7 @@ function commitInput() {
   }
 
   if (currentInputId === 'delivery-fee') calcTotal();
-  document.getElementById('input-modal').classList.remove('active');
+  const imEl=document.getElementById('input-modal'); imEl.style.display='none'; imEl.classList.remove('active');
 }
 
 function closeInputModal(e) {
