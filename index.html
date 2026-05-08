@@ -214,8 +214,9 @@
     background:rgba(0,0,0,0.45); z-index:200;
     align-items:flex-start; justify-content:center;
     padding-top:20px;
+    pointer-events:none;
   }
-  .input-modal-overlay.active { display:flex; }
+  .input-modal-overlay.active { display:flex; pointer-events:auto; }
   .input-modal {
     background:white; border-radius:16px;
     width:calc(100% - 24px); max-width:680px; padding:18px 20px 22px;
